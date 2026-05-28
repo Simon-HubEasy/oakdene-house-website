@@ -3,13 +3,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import CTABand from '../../components/CTABand.astro';
 
 const schedule = [
-  { day: 'Monday', time: '11:00am – 1:15pm', format: 'In-person', audience: 'Mixed' },
+  { day: 'Monday', time: '11:00am – 1:15pm', format: 'In-person', audience: '' },
   { day: 'Tuesday', time: '11:00am – 12:15pm', format: 'In-person', audience: 'Ladies Only' },
   { day: 'Tuesday', time: '1:00pm – 2:15pm', format: 'In-person', audience: 'Men Only' },
-  { day: 'Tuesday', time: '4:00pm – 5:30pm', format: 'Online via Zoom', audience: 'Mixed' },
-  { day: 'Wednesday', time: '11:00am – 12:30pm', format: 'In-person', audience: 'Mixed' },
-  { day: 'Thursday', time: '11:00am – 12:30pm', format: 'In-person', audience: 'Mixed' },
-  { day: 'Friday', time: '5:00pm – 6:30pm', format: 'Online via Zoom', audience: 'Mixed' },
+  { day: 'Tuesday', time: '4:00pm – 5:30pm', format: 'Online / Zoom Only', audience: '' },
+  { day: 'Wednesday', time: '11:00am – 12:30pm', format: 'In-person', audience: '' },
+  { day: 'Thursday', time: '11:00am – 12:30pm', format: 'In-person', audience: '' },
+  { day: 'Friday', time: '5:00pm – 6:30pm', format: 'In-person', audience: '' },
 ];
 
 const whatToExpect = [
@@ -64,7 +64,7 @@ const joinSteps = [
         <div>
           <div class="section-heading">
             <p class="section-heading__eyebrow">Program Overview</p>
-            <h2 id="lcp-overview-heading">A practical journey, together</h2>
+            <h2 id="lcp-overview-heading">Life Choices</h2>
           </div>
           <p>The Life Choices Program is a practical, 6-week group experience designed to help people understand addiction, learn coping strategies, build life skills, and connect with others on a similar journey.</p>
           <p>We meet regularly, share experiences, and work toward recovery in a supportive environment.</p>
