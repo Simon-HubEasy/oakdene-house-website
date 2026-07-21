@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="FAQ — Oakdene House Foundation"
-  description="Frequently asked questions about Oakdene House Foundation's services, programs, volunteering, donations, and more."
+  description="Frequently asked questions about Oakdene House Foundation's services, programs, volunteering, and more."
 >
 
   <!-- HERO -->
@@ -31,9 +31,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <a href="#cat-b">B. Counselling and clinical services</a>
           <a href="#cat-c">C. Community programs</a>
           <a href="#cat-d">D. Volunteering</a>
-          <a href="#cat-e">E. Donations and partnerships</a>
-          <a href="#cat-f">F. About Oakdene</a>
-          <a href="#cat-g">G. Privacy and information</a>
+          <a href="#cat-e">E. About Oakdene</a>
+          <a href="#cat-f">F. Privacy and information</a>
         </nav>
 
         <!-- Search filter could be added here in future - likely client-side JS filtering question titles and answers. Currently the chatbot will fulfil the search role. -->
@@ -319,88 +318,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <!-- ============================================================
-             CATEGORY E — Donations and partnerships
+             CATEGORY E — About Oakdene
              ============================================================ -->
         <div class="faq-category" id="cat-e">
-          <h2 class="faq-cat-heading">E. Donations and partnerships</h2>
+          <h2 class="faq-cat-heading">E. About Oakdene</h2>
           <div class="faq-group">
 
             <div class="faq-item">
               <button class="faq-btn" aria-expanded="false" aria-controls="faq-e-1-content" id="faq-e-1-btn">
-                <span class="faq-question">Is my donation tax-deductible?</span>
-                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <div class="faq-content" id="faq-e-1-content" role="region" aria-labelledby="faq-e-1-btn">
-                <div class="faq-content-inner">
-                  <p>Yes — donations of $2 or more are tax-deductible, subject to our DGR status.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-btn" aria-expanded="false" aria-controls="faq-e-2-content" id="faq-e-2-btn">
-                <span class="faq-question">Can I set up a regular monthly donation?</span>
-                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <div class="faq-content" id="faq-e-2-content" role="region" aria-labelledby="faq-e-2-btn">
-                <div class="faq-content-inner">
-                  <p>Yes — see our <a href="/support-us/">Support Us page</a> for one-off or monthly giving options.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-btn" aria-expanded="false" aria-controls="faq-e-3-content" id="faq-e-3-btn">
-                <span class="faq-question">How do I cancel a monthly donation?</span>
-                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <div class="faq-content" id="faq-e-3-content" role="region" aria-labelledby="faq-e-3-btn">
-                <div class="faq-content-inner">
-                  <p>Email <a href="mailto:admin@oakdenehouse.org.au">admin@oakdenehouse.org.au</a> or use the cancellation link in your donation email.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-btn" aria-expanded="false" aria-controls="faq-e-4-content" id="faq-e-4-btn">
-                <span class="faq-question">How are donations used?</span>
-                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <div class="faq-content" id="faq-e-4-content" role="region" aria-labelledby="faq-e-4-btn">
-                <div class="faq-content-inner">
-                  <p>Oakdene operates lean. Over 90% of donations go directly to service delivery.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-btn" aria-expanded="false" aria-controls="faq-e-5-content" id="faq-e-5-btn">
-                <span class="faq-question">My company wants to partner with Oakdene. Who do I contact?</span>
-                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <div class="faq-content" id="faq-e-5-content" role="region" aria-labelledby="faq-e-5-btn">
-                <div class="faq-content-inner">
-                  <p>Email <a href="mailto:admin@oakdenehouse.org.au">admin@oakdenehouse.org.au</a> or use the <a href="/contact/">contact form</a> and select "Partnership or organisation enquiry".</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- ============================================================
-             CATEGORY F — About Oakdene
-             ============================================================ -->
-        <div class="faq-category" id="cat-f">
-          <h2 class="faq-cat-heading">F. About Oakdene</h2>
-          <div class="faq-group">
-
-            <div class="faq-item">
-              <button class="faq-btn" aria-expanded="false" aria-controls="faq-f-1-content" id="faq-f-1-btn">
                 <span class="faq-question">Where are you located?</span>
                 <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <div class="faq-content" id="faq-f-1-content" role="region" aria-labelledby="faq-f-1-btn">
+              <div class="faq-content" id="faq-e-1-content" role="region" aria-labelledby="faq-e-1-btn">
                 <div class="faq-content-inner">
                   <p>29 Vine Street, Fairfield NSW 2165. Parking is available via the Fairfield RSL open-air car park at the corner of Vine and Bertha Streets.</p>
                 </div>
@@ -408,11 +337,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </div>
 
             <div class="faq-item">
-              <button class="faq-btn" aria-expanded="false" aria-controls="faq-f-2-content" id="faq-f-2-btn">
+              <button class="faq-btn" aria-expanded="false" aria-controls="faq-e-2-content" id="faq-e-2-btn">
                 <span class="faq-question">What are your opening hours?</span>
                 <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <div class="faq-content" id="faq-f-2-content" role="region" aria-labelledby="faq-f-2-btn">
+              <div class="faq-content" id="faq-e-2-content" role="region" aria-labelledby="faq-e-2-btn">
                 <div class="faq-content-inner">
                   <p>The centre is open Monday to Friday during business hours. Individual services have their own hours — see the <a href="/contact/">Contact page</a> for the full schedule.</p>
                 </div>
@@ -420,11 +349,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </div>
 
             <div class="faq-item">
-              <button class="faq-btn" aria-expanded="false" aria-controls="faq-f-3-content" id="faq-f-3-btn">
+              <button class="faq-btn" aria-expanded="false" aria-controls="faq-e-3-content" id="faq-e-3-btn">
                 <span class="faq-question">Are you a registered charity?</span>
                 <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <div class="faq-content" id="faq-f-3-content" role="region" aria-labelledby="faq-f-3-btn">
+              <div class="faq-content" id="faq-e-3-content" role="region" aria-labelledby="faq-e-3-btn">
                 <div class="faq-content-inner">
                   <p>Yes. Oakdene House Foundation is a registered Australian charity with the ACNC. ABN 90 151 950 926.</p>
                 </div>
@@ -432,11 +361,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </div>
 
             <div class="faq-item">
-              <button class="faq-btn" aria-expanded="false" aria-controls="faq-f-4-content" id="faq-f-4-btn">
+              <button class="faq-btn" aria-expanded="false" aria-controls="faq-e-4-content" id="faq-e-4-btn">
                 <span class="faq-question">Is Oakdene religiously affiliated?</span>
                 <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <div class="faq-content" id="faq-f-4-content" role="region" aria-labelledby="faq-f-4-btn">
+              <div class="faq-content" id="faq-e-4-content" role="region" aria-labelledby="faq-e-4-btn">
                 <div class="faq-content-inner">
                   <p>Oakdene's services are open to everyone regardless of religion, background, or beliefs.</p>
                 </div>
@@ -447,18 +376,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <!-- ============================================================
-             CATEGORY G — Privacy and information
+             CATEGORY F — Privacy and information
              ============================================================ -->
-        <div class="faq-category" id="cat-g">
-          <h2 class="faq-cat-heading">G. Privacy and information</h2>
+        <div class="faq-category" id="cat-f">
+          <h2 class="faq-cat-heading">F. Privacy and information</h2>
           <div class="faq-group">
 
             <div class="faq-item">
-              <button class="faq-btn" aria-expanded="false" aria-controls="faq-g-1-content" id="faq-g-1-btn">
+              <button class="faq-btn" aria-expanded="false" aria-controls="faq-f-1-content" id="faq-f-1-btn">
                 <span class="faq-question">How do you handle my personal information?</span>
                 <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <div class="faq-content" id="faq-g-1-content" role="region" aria-labelledby="faq-g-1-btn">
+              <div class="faq-content" id="faq-f-1-content" role="region" aria-labelledby="faq-f-1-btn">
                 <div class="faq-content-inner">
                   <p>See our <a href="/privacy-policy/">Privacy Policy</a>. In short: we collect only what we need to support you, keep it secure, and don't share it without your consent except where required by law.</p>
                 </div>
@@ -466,11 +395,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </div>
 
             <div class="faq-item">
-              <button class="faq-btn" aria-expanded="false" aria-controls="faq-g-2-content" id="faq-g-2-btn">
+              <button class="faq-btn" aria-expanded="false" aria-controls="faq-f-2-content" id="faq-f-2-btn">
                 <span class="faq-question">Can I see what information you hold about me?</span>
                 <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <div class="faq-content" id="faq-g-2-content" role="region" aria-labelledby="faq-g-2-btn">
+              <div class="faq-content" id="faq-f-2-content" role="region" aria-labelledby="faq-f-2-btn">
                 <div class="faq-content-inner">
                   <p>Yes — you can request access to your records at any time. Contact us at <a href="mailto:admin@oakdenehouse.org.au">admin@oakdenehouse.org.au</a>.</p>
                 </div>
