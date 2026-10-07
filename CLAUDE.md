@@ -143,6 +143,7 @@ All images are in public/images/ and served from /images/
 - Kitchen/Laundrette/Clothing contact: kitchen@oakdenehouse.org.au / 0415 156 100
 - Boutique contact: boutique@oakdenehouse.org.au / 0415 156 100
 - CEO: Simon Jarvis
+- Office hours: Monday to Friday, 9am–5pm. Some programs run outside these hours (each program page lists its times)
 
 ## Service operating details — confirmed, use exactly
 ### Oakdene Kitchen
@@ -155,8 +156,8 @@ All images are in public/images/ and served from /images/
 - Motto: "Feed the people, stay alive"
 
 ### Staple Food Packs
-- Day: Every Friday
-- Hours: 12pm–2pm
+- Day: Fridays only
+- Hours: 12pm–1pm
 - Starting: 17 April 2026
 - Cost: Free
 - Includes: Fresh fruit and vegetables, canned goods, long life milk, cereal, hygiene items (subject to availability)
@@ -195,6 +196,15 @@ All images are in public/images/ and served from /images/
 - Friday 5:00pm–6:30pm Zoom
 
 ## Impact stats — use these exact numbers
+Both sets are confirmed correct by Simon (7 October 2026). Don't change one to match the other.
+
+Homepage set (src/pages/index.astro):
+- 5,000+ Meals and food packs delivered annually
+- $250,000 Value of supplies provided annually
+- 2,000+ Individuals impacted
+- 25 Local organisation partnerships
+
+Second set (available for other pages):
 - 5,000+ People supported each year
 - 100+ Community events and workshops
 - 1,000+ Hours of one-to-one support
@@ -213,6 +223,10 @@ All images are in public/images/ and served from /images/
 - 1800RESPECT: 1800 737 732
 - AA Help Line: 1300 222 222
 - Salvation Army: 1300 36 36 22
+
+## Peer support contacts (AA & GA Meetings page)
+- Alcoholics Anonymous (AA) Australia: aa.org.au, 24-hour helpline 1300 22 22 22
+- Gamblers Anonymous (GA) NSW: ga.nsw.org.au, 0455 717 543
 
 ## File and folder conventions
 - All page files: lowercase with hyphens (e.g. life-choices-program.astro)
