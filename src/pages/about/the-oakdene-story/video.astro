@@ -104,7 +104,7 @@ const jsonLdHtml = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
         label="Play video: Oakdene House Foundation, our story"
         loading="eager"
       />
-      <p class="watch-meta">Length {durationText}. Captions are on when the video plays, and the full transcript is below.</p>
+      <p class="watch-meta">Length {durationText}. Captions are on when the video plays, and you can read the full transcript below.</p>
 
       <figure class="watch-quote">
         <blockquote>
@@ -123,15 +123,22 @@ const jsonLdHtml = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
       <div class="section-heading">
         <h2 id="transcript-heading">Transcript</h2>
       </div>
-      <div class="transcript">
-        {turns.map(turn => (
-          <p class="transcript__turn">
-            <span class="transcript__time">{turn.time}</span>
-            <strong class="transcript__speaker">{turn.speaker}</strong>
-            <span class="transcript__text">{turn.text}</span>
-          </p>
-        ))}
-      </div>
+      <details class="transcript-toggle">
+        <summary class="transcript-toggle__summary">
+          <span class="transcript-toggle__show">Show transcript</span>
+          <span class="transcript-toggle__hide">Hide transcript</span>
+          <svg class="transcript-toggle__chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="transcript">
+          {turns.map(turn => (
+            <p class="transcript__turn">
+              <span class="transcript__time">{turn.time}</span>
+              <strong class="transcript__speaker">{turn.speaker}</strong>
+              <span class="transcript__text">{turn.text}</span>
+            </p>
+          ))}
+        </div>
+      </details>
 
       <div class="btn-group watch-actions">
         <a href="/services/referral/" class="btn btn--primary">Get support</a>
@@ -189,7 +196,56 @@ const jsonLdHtml = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
     color: var(--color-muted);
   }
 
-  /* Transcript */
+  /* Transcript, hidden until opened */
+  .transcript-toggle__summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 22px;
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-btn);
+    color: var(--color-primary);
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    transition: background-color var(--transition), color var(--transition);
+  }
+
+  .transcript-toggle__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .transcript-toggle__summary:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .transcript-toggle__summary:focus-visible {
+    outline: 3px solid var(--color-primary-hover);
+    outline-offset: 3px;
+  }
+
+  .transcript-toggle__hide,
+  .transcript-toggle[open] .transcript-toggle__show {
+    display: none;
+  }
+
+  .transcript-toggle[open] .transcript-toggle__hide {
+    display: inline;
+  }
+
+  .transcript-toggle__chevron {
+    transition: transform var(--transition);
+  }
+
+  .transcript-toggle[open] .transcript-toggle__chevron {
+    transform: rotate(180deg);
+  }
+
+  .transcript {
+    margin-top: 32px;
+  }
+
   .transcript__turn {
     display: grid;
     grid-template-columns: 52px 1fr;
