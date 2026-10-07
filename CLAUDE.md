@@ -30,11 +30,11 @@ Adding the Oakdene video (produced by Lead Story) to the homepage and a new watc
 - No database and no server-side rendering. The only server code is the Cloudflare Pages Function in functions/api/contact.js
 
 ## Build and deploy
-- Cloudflare Pages project `oakdene-house-website-exk` (test address oakdene-house-website-exk.pages.dev), connected to this repository, Simon-HubEasy/oakdene-house-website. Custom domains oakdenehouse.org.au and www.oakdenehouse.org.au moved to it on 7 October 2026. No wrangler.toml and no CI workflow in the repo
-- History: until 7 October 2026 the site was built by an older Pages project, `oakdene-house-website`, connected to mattmbaldwin/oakdene-house-website (this repo is a fork of it). That project no longer serves the domains. Keep it as a fallback until the new setup has run smoothly for a few weeks, then delete it. Changes never need to go to Matt's repository again
-- Build command: npm run build. Output folder: dist/. Framework preset: Astro
-- Live (production) branch: main of Simon-HubEasy/oakdene-house-website. Merging to main publishes the site within a few minutes
-- Any other pushed branch gets a Cloudflare preview deploy on the pages.dev address; it does not change the live site
+- The live site is published by the Cloudflare Pages project `oakdene-house-website` in Matt Baldwin's Cloudflare account (the account that also holds the oakdenehouse.org.au domain). That project builds from mattmbaldwin/oakdene-house-website, main branch. This repository, Simon-HubEasy/oakdene-house-website, is a fork of it
+- To publish: merge work into main here, then open a pull request from Simon-HubEasy:main into mattmbaldwin/oakdene-house-website main. Matt merges it (Simon has no write access there), and Cloudflare publishes automatically within a few minutes. Merging into main here does not change the live site on its own
+- A second Pages project, `oakdene-house-website-exk` in Simon's own Cloudflare account, builds this repository and posts preview links on pull requests (oakdene-house-website-exk.pages.dev). It is a test copy only and serves no custom domains. A Pages project can only use the apex domain if it is in the same Cloudflare account as the domain
+- Planned: move the domain and hosting into an Oakdene-owned Cloudflare and GitHub account, or have Matt transfer the repository and add Simon as Super Administrator, so Oakdene controls its own site
+- Build command: npm run build. Output folder: dist/. Framework preset: Astro. No wrangler.toml and no CI workflow in the repo
 - Create Pages projects through Workers & Pages > Create application > Pages (Import an existing Git repository). The default Create flow makes a Worker, which runs `wrangler deploy` and does not run functions/api/contact.js
 - public/_redirects holds the 301 redirects for moved pages
 - Sitemap: @astrojs/sitemap builds sitemap-index.xml and sitemap-0.xml from every page. Pages left out are listed in SITEMAP_EXCLUDE in astro.config.mjs. Any new noindex, thank-you or error page must be added there
@@ -58,7 +58,7 @@ Node 22.12 or later.
 - Jotform embeds: services/referral.astro and community-programs/volunteering/index.astro
 - Contact page: posts to /api/contact, a Cloudflare Pages Function (functions/api/contact.js) that checks Cloudflare Turnstile and sends the message by email through Resend
 - The Pages Function needs these environment variables in the Cloudflare Pages project (Settings > Variables and secrets): CONTACT_EMAIL_FROM and CONTACT_EMAIL_TO as text, RESEND_API_KEY and TURNSTILE_SECRET_KEY as secrets. Locally they go in .dev.vars (see .dev.vars.example, never commit real values)
-- Turnstile widget site key: 0x4AAAAAADFd373EZuMIVXX0 (in src/pages/contact.astro). Its Hostnames list must include every address the form runs on: oakdenehouse.org.au, www.oakdenehouse.org.au and oakdene-house-website-exk.pages.dev for testing
+- Turnstile widget site key: 0x4AAAAAADFd373EZuMIVXX0 (in src/pages/contact.astro). Its Hostnames list must include every address the form runs on: oakdenehouse.org.au and www.oakdenehouse.org.au, plus oakdene-house-website-exk.pages.dev if the test copy's Contact form is used
 - Don't build any new form backends. New forms are Jotform embeds
 
 ## Design philosophy
@@ -307,4 +307,4 @@ Config in public/admin/config.yml. Staff edit via /admin/ in browser.
 - [x] 404 and Thank You pages built
 - [ ] Decap CMS configured
 - [ ] Images optimised for web
-- [x] Deployed to Cloudflare Pages (from this repository since 7 October 2026)
+- [x] Deployed to Cloudflare Pages (from mattmbaldwin/oakdene-house-website; see Build and deploy)
