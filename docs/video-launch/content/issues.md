@@ -15,4 +15,5 @@ Until the corrected master arrives, Build 6 can do a test run on the compressed 
 - 7 October 2026: thumbnail is the frame at 0:53 (candidate_53s.jpg), saved as public/images/video/oakdene-video-thumb.jpg (1280 x 720)
 - 7 October 2026: the 3:17 speaker is shown as "Speaker" in the transcript until Lead Story confirms the name. The spoken words are unchanged. Still not to be quoted by name
 - 7 October 2026: Simon confirmed the video on YouTube (QYXCzj4ghFM) is the corrected master. The "Recovering addict" name captions and the "Councillor" spelling are fixed. Build 6 social clips should be cut from this version, so no covering band is needed
-- 7 October 2026: Simon confirmed approvals are complete: consent from Anne Marie Durnan, Mark Henson, Tom Simpson and Anthony Sobb (full video and short clips), and Lead Story's permission to post on Oakdene's channel
+- 7 October 2026: Lead Story has approved the release. Oakdene commissioned and paid for the video, so it can be posted on Oakdene's channel and website
+- Open: written consent from Anne Marie Durnan, Mark Henson, Tom Simpson and Anthony Sobb for the short social clips (Build 6) still to be confirmed
