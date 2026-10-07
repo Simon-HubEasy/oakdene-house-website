@@ -9,3 +9,8 @@
 | All clips | Consent for short clips, not only the full video, from Anne Marie Durnan, Mark Henson, Tom Simpson and Anthony Sobb | Written confirmation before any clip is posted | Simon |
 
 Until the corrected master arrives, Build 6 can do a test run on the compressed file and cover the name captions with a teal band.
+
+## Decisions
+
+- 7 October 2026: thumbnail is the frame at 0:53 (candidate_53s.jpg), saved as public/images/video/oakdene-video-thumb.jpg (1280 x 720)
+- 7 October 2026: the 3:17 speaker is shown as "Speaker" in the transcript until Lead Story confirms the name. The spoken words are unchanged. Still not to be quoted by name
