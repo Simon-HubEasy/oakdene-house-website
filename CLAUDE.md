@@ -37,6 +37,7 @@ Adding the Oakdene video (produced by Lead Story) to the homepage and a new watc
 - public/_redirects holds the 301 redirects for moved pages
 - Sitemap: @astrojs/sitemap builds sitemap-index.xml and sitemap-0.xml from every page. Pages left out are listed in SITEMAP_EXCLUDE in astro.config.mjs. Any new noindex, thank-you or error page must be added there
 - public/robots.txt allows all crawlers, skips /api/ and names the sitemap. Cloudflare's Managed robots.txt setting, if on, adds its own lines to the live file
+- Analytics: Google Analytics 4 runs through Cloudflare Zaraz, set up in the Cloudflare dashboard (no GA script in the repo). Custom events go through trackEvent() in src/scripts/analytics.ts, which does nothing if Zaraz is not loaded. Events: video_play (video_title, video_location) and video_transcript_click (video_location). Each event needs a matching trigger and GA4 action in Zaraz
 - Roll back by redeploying the previous production deployment in the Cloudflare dashboard, or by reverting the merge commit on the live branch
 
 ## Commands
@@ -214,6 +215,7 @@ All images are in public/images/ and served from /images/
 ## File and folder conventions
 - All page files: lowercase with hyphens (e.g. life-choices-program.astro)
 - All component files: PascalCase (e.g. ServiceCard.astro)
+- Shared client-side scripts: src/scripts/ (TypeScript modules imported by component and page <script> tags)
 - All content files: JSON in src/content/. Exception: the video watch page reads video.json and transcript.txt from docs/video-launch/content/ at build time, so the launch pack stays the single source
 - Images served from /images/ (files live in public/images/)
 - PDFs in public/downloads/

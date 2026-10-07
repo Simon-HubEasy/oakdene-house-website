@@ -268,7 +268,7 @@ const steps = [
         label="Play video: Oakdene House Foundation, our story"
       />
       <div class="section-action">
-        <a href={video.watch_page_path} class="btn btn--secondary">Watch with transcript</a>
+        <a href={video.watch_page_path} class="btn btn--secondary" id="video-transcript-link">Watch with transcript</a>
       </div>
     </div>
   </section>
@@ -285,6 +285,14 @@ const steps = [
   />
 
 </BaseLayout>
+
+<script>
+  import { trackEvent, videoLocation } from '../scripts/analytics';
+
+  document.getElementById('video-transcript-link')?.addEventListener('click', () => {
+    trackEvent('video_transcript_click', { video_location: videoLocation() });
+  });
+</script>
 
 <style>
   /* ---- Pathways grid ---- */
