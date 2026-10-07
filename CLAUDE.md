@@ -212,7 +212,7 @@ All images are in public/images/ and served from /images/
 ## File and folder conventions
 - All page files: lowercase with hyphens (e.g. life-choices-program.astro)
 - All component files: PascalCase (e.g. ServiceCard.astro)
-- All content files: JSON in src/content/
+- All content files: JSON in src/content/. Exception: the video watch page reads video.json and transcript.txt from docs/video-launch/content/ at build time, so the launch pack stays the single source
 - Images served from /images/ (files live in public/images/)
 - PDFs in public/downloads/
 - Never use inline styles — always CSS classes or custom properties
@@ -223,7 +223,7 @@ All images are in public/images/ and served from /images/
 
 ## Component conventions
 - Every page uses BaseLayout.astro
-- BaseLayout accepts: title, description (optional), ogImage (optional, defaults to /images/hero/hero-centre-1.jpg), noindex (optional boolean)
+- BaseLayout accepts: title, description (optional), ogImage (optional, defaults to /images/hero/hero-centre-1.jpg), noindex (optional boolean), ogType (optional, defaults to 'website'). It has a named slot "head" for page-specific head content such as JSON-LD (use slot="head" on the element)
 - Hero.astro accepts: heading, subheading, image, imageAlt, buttons array of {text, href, variant: 'white' | 'white-outline'}
 - CTABand.astro accepts: heading, subheading, primaryBtn {text, href}, secondaryBtn {text, href}, dark boolean (defaults to true)
 - ServiceCard.astro accepts: title, summary, href, image, imageAlt, imagePosition, icon, eyebrow (all but the first three optional)
@@ -231,7 +231,7 @@ All images are in public/images/ and served from /images/
 - TestimonialBlock.astro accepts: quotes array of {quote, attribution} from testimonials.json
 - StatsGrid.astro accepts: stats array of {number, label}
 - FAQAccordion.astro accepts: faqs array of {question, answer} from faqs.json
-- VideoPlayer.astro (to be built in video Build 1): YouTube ID, title, thumbnail
+- VideoPlayer.astro accepts: youtubeId, title, thumbnail, label (the play button's screen reader label), loading ('lazy' default, 'eager' above the fold). Loads the youtube-nocookie.com player only when the play button is pressed
 
 ## Page structure — current routes
 All in src/pages/. URLs use trailing slashes.
@@ -239,7 +239,7 @@ All in src/pages/. URLs use trailing slashes.
 ### Main pages
 - / (index.astro)
 - /about/ with subpages /about/the-oakdene-story/, /about/our-team/, /about/our-board/ (noindex), /about/our-centre/
-- /about/the-oakdene-story/video/ (watch page, to be built in video Build 1)
+- /about/the-oakdene-story/video/ (video watch page)
 - /services/ with subpages: individual-counselling, gambling-counselling, financial-counselling, group-dbt-therapy, life-choices-program, outpatients-program, aa-ga-meetings, referral (Jotform) and referral/thank-you
 - /community-programs/ with subpages: oakdene-kitchen, staple-food-packs, oakdene-laundrette, used-clothing-store, ladies-boutique
 - /community-programs/volunteering/ (Jotform) with subpages community-volunteers, corporate-volunteering and thank-you
