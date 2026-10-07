@@ -1,6 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CTABand from '../../components/CTABand.astro';
+import VideoPlayer from '../../components/VideoPlayer.astro';
+
+// Video details come from the launch pack, read at build time only.
+import video from '../../../docs/video-launch/content/video.json';
+
+const videoThumbnail = video.thumbnail_path.replace(/^public/, '');
 ---
 
 <BaseLayout
@@ -69,6 +75,26 @@ import CTABand from '../../components/CTABand.astro';
     </div>
   </div>
 
+  <!-- WATCH OUR STORY -->
+  <section class="section" aria-labelledby="watch-heading">
+    <div class="container story-video">
+      <div class="section-heading section-heading--center">
+        <p class="section-heading__eyebrow">Our Film</p>
+        <h2 id="watch-heading">Watch our story</h2>
+        <p class="section-heading__lead">People in recovery, our counsellors and our founding chairman talk about what support at Oakdene House means to them.</p>
+      </div>
+      <VideoPlayer
+        youtubeId={video.youtube_id}
+        title={video.title}
+        thumbnail={videoThumbnail}
+        label="Play video: Oakdene House Foundation, our story"
+      />
+      <p class="story-video__link">
+        <a href={video.watch_page_path}>Watch with the full transcript</a>
+      </p>
+    </div>
+  </section>
+
   <!-- WHY THIS MATTERS -->
   <section class="section section--dark" aria-labelledby="why-heading">
     <div class="container why-container">
@@ -136,6 +162,29 @@ import CTABand from '../../components/CTABand.astro';
   }
 
   /* Tree strip */
+  /* Watch our story */
+  .story-video {
+    max-width: 880px;
+  }
+
+  .story-video__link {
+    margin-top: 20px;
+    margin-bottom: 0;
+    text-align: center;
+  }
+
+  .story-video__link a {
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color var(--transition);
+  }
+
+  .story-video__link a:hover {
+    color: var(--color-link-hover);
+  }
+
   .tree-strip {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
