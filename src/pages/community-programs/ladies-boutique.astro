@@ -2,7 +2,6 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import InfoTable from '../../components/InfoTable.astro';
 import CTABand from '../../components/CTABand.astro';
-
 const serviceRows = [
   { label: 'Days', value: 'By appointment only' },
   { label: 'Hours', value: 'By appointment only' },
@@ -11,7 +10,6 @@ const serviceRows = [
   { label: 'Email', value: '<a href="mailto:boutique@oakdenehouse.org.au">boutique@oakdenehouse.org.au</a>' },
   { label: 'Phone', value: '<a href="tel:0415156100">0415 156 100</a>' },
 ];
-
 const offerings = [
   {
     heading: 'Clothing Hub',
@@ -34,7 +32,6 @@ const offerings = [
     icon: 'community',
   },
 ];
-
 const financialIndicators = [
   'Behind on rent',
   'Skipping meals',
@@ -43,13 +40,11 @@ const financialIndicators = [
   'Limited disposable income',
 ];
 ---
-
 <BaseLayout
   title="Ladies Boutique — Oakdene House Foundation"
   description="Oakdene Ladies Boutique offers clothing, salon services and a private, supportive space for women doing it tough. By appointment only."
   ogImage="/images/boutique/ladies-boutique-edited.png"
 >
-
   <!-- HERO -->
   <section class="boutique-hero" aria-label="Ladies Boutique">
     <div class="boutique-hero__overlay" aria-hidden="true"></div>
@@ -64,12 +59,11 @@ const financialIndicators = [
       <h1>Oakdene Ladies Boutique</h1>
       <p class="boutique-hero__lead">A warm, private and supportive space for women who are doing it tough.</p>
       <div class="btn-group">
-        <a href="/services/referral/" class="btn btn--white">Submit Referral</a><!-- TODO: Replace with live Jotform URL -->
-        <a href="/contact/" class="btn btn--white-outline">Make an Enquiry</a><!-- TODO: Replace with live Jotform URL -->
+        <a href="#referral-form" class="btn btn--white">Submit Referral</a>
+        <a href="/contact/" class="btn btn--white-outline">Make an Enquiry</a>
       </div>
     </div>
   </section>
-
   <!-- INTRO + DETAILS -->
   <section class="section" aria-labelledby="boutique-intro-heading">
     <div class="container">
@@ -92,7 +86,6 @@ const financialIndicators = [
       </div>
     </div>
   </section>
-
   <!-- WHAT WE OFFER -->
   <section class="section section--tint" aria-labelledby="offerings-heading">
     <div class="container">
@@ -124,7 +117,6 @@ const financialIndicators = [
       </div>
     </div>
   </section>
-
   <!-- BOUTIQUE IMAGES -->
   <section class="boutique-gallery" aria-label="Boutique photos">
     <div class="gallery-grid">
@@ -142,7 +134,6 @@ const financialIndicators = [
       </div>
     </div>
   </section>
-
   <!-- ELIGIBILITY -->
   <section class="section" aria-labelledby="eligibility-heading">
     <div class="container">
@@ -151,7 +142,6 @@ const financialIndicators = [
           <p class="section-heading__eyebrow">Who Can Access</p>
           <h2 id="eligibility-heading">Eligibility and access</h2>
         </div>
-
         <div class="eligibility-row">
           <div class="eligibility-card">
             <h3>Automatic eligibility</h3>
@@ -170,15 +160,12 @@ const financialIndicators = [
             </ul>
           </div>
         </div>
-
         <div class="visit-note">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           <p>Maximum <strong>2 visits per 12 months per household</strong>. Emergency override possible with staff approval.</p>
         </div>
-
         <h3 class="how-access-heading">How to access</h3>
         <p>You can be referred from services, health professionals, schools, or DV services. Referral only.</p>
-
         <!-- ACCESS PROMISE -->
         <div class="access-promise">
           <div class="access-promise__icon" aria-hidden="true">
@@ -192,17 +179,26 @@ const financialIndicators = [
       </div>
     </div>
   </section>
-
+  <!-- REFERRAL FORM -->
+  <section class="section section--tint" id="referral-form" aria-labelledby="referral-form-heading">
+    <div class="container">
+      <div class="narrow">
+        <div class="section-heading">
+          <p class="section-heading__eyebrow">Make a Referral</p>
+          <h2 id="referral-form-heading">Submit a referral</h2>
+        </div>
+        <script type="text/javascript" src="https://form.jotform.com/jsform/260882794387071"></script>
+      </div>
+    </div>
+  </section>
   <!-- CTA -->
   <CTABand
     heading="Ready to visit or make a referral?"
-    primaryBtn={{ text: 'Submit Referral', href: '/services/referral/' }}
+    primaryBtn={{ text: 'Submit Referral', href: '#referral-form' }}
     secondaryBtn={{ text: 'Make an Enquiry', href: '/contact/' }}
     dark={true}
   />
-
 </BaseLayout>
-
 <style>
   .boutique-hero {
     position: relative;
@@ -213,28 +209,23 @@ const financialIndicators = [
     display: flex;
     align-items: flex-end;
   }
-
   .boutique-hero__overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(to bottom, rgba(0,62,81,0.3) 0%, rgba(0,62,81,0.85) 100%);
   }
-
   .boutique-hero__content {
     position: relative;
     z-index: 1;
     padding-block: 56px;
   }
-
   .boutique-hero__content h1 { color: var(--color-white); margin-bottom: 10px; }
-
   .boutique-hero__lead {
     font-size: 1.125rem;
     color: rgba(255,255,255,0.88);
     margin-bottom: 28px;
     max-width: 540px;
   }
-
   .motto-tag {
     display: inline-flex;
     align-items: center;
@@ -247,14 +238,12 @@ const financialIndicators = [
     color: var(--color-primary);
     margin-top: 24px;
   }
-
   /* Offerings */
   .offerings-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
   }
-
   .offering-card {
     background-color: var(--color-white);
     border-radius: var(--radius-card);
@@ -262,53 +251,44 @@ const financialIndicators = [
     border: 1px solid var(--color-secondary);
     transition: border-color var(--transition), box-shadow var(--transition);
   }
-
   .offering-card:hover {
     border-color: var(--color-primary);
     box-shadow: var(--shadow-card);
   }
-
   .offering-card__icon {
     color: var(--color-primary);
     margin-bottom: 14px;
   }
-
   .offering-card__heading {
     font-size: 1rem;
     font-weight: 600;
     color: var(--color-primary);
     margin-bottom: 10px;
   }
-
   .offering-card__desc {
     font-size: 0.9rem;
     color: var(--color-muted);
     line-height: 1.6;
     margin-bottom: 0;
   }
-
   /* Gallery */
   .boutique-gallery {
     background-color: var(--color-tint);
   }
-
   .gallery-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto auto;
     gap: 4px;
   }
-
   .gallery-grid__item {
     overflow: hidden;
     aspect-ratio: 4 / 3;
   }
-
   .gallery-grid__item--tall {
     grid-row: 1 / 3;
     aspect-ratio: auto;
   }
-
   .gallery-grid__item img {
     width: 100%;
     height: 100%;
@@ -316,43 +296,36 @@ const financialIndicators = [
     display: block;
     transition: transform 0.4s ease;
   }
-
   .gallery-grid__item:hover img {
     transform: scale(1.04);
   }
-
   /* Eligibility */
   .narrow {
     max-width: 760px;
   }
-
   .eligibility-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     margin-bottom: 20px;
   }
-
   .eligibility-card {
     background-color: var(--color-tint);
     border: 1px solid var(--color-secondary);
     border-radius: var(--radius-card);
     padding: 24px;
   }
-
   .eligibility-card h3 {
     font-size: 0.9375rem;
     font-weight: 600;
     color: var(--color-primary);
     margin-bottom: 10px;
   }
-
   .eligibility-card p {
     font-size: 0.875rem;
     color: var(--color-muted);
     margin-bottom: 12px;
   }
-
   .elig-list {
     display: flex;
     flex-direction: column;
@@ -360,7 +333,6 @@ const financialIndicators = [
     padding: 0;
     list-style: none;
   }
-
   .elig-list li {
     padding-left: 20px;
     position: relative;
@@ -368,7 +340,6 @@ const financialIndicators = [
     color: var(--color-text);
     line-height: 1.5;
   }
-
   .elig-list li::before {
     content: '–';
     position: absolute;
@@ -376,7 +347,6 @@ const financialIndicators = [
     color: var(--color-primary);
     font-weight: 600;
   }
-
   .visit-note {
     display: flex;
     align-items: flex-start;
@@ -388,25 +358,21 @@ const financialIndicators = [
     font-size: 0.9375rem;
     color: var(--color-text);
   }
-
   .visit-note svg {
     color: var(--color-primary);
     flex-shrink: 0;
     margin-top: 2px;
   }
-
   .visit-note p {
     margin-bottom: 0;
     line-height: 1.5;
   }
-
   .how-access-heading {
     font-size: 1rem;
     font-weight: 600;
     color: var(--color-primary);
     margin: 0 0 10px;
   }
-
   .access-promise {
     display: flex;
     align-items: flex-start;
@@ -417,12 +383,10 @@ const financialIndicators = [
     padding: 24px 28px;
     margin-top: 28px;
   }
-
   .access-promise__icon {
     flex-shrink: 0;
     margin-top: 2px;
   }
-
   .access-promise__heading {
     font-weight: 700;
     font-size: 0.9375rem;
@@ -430,24 +394,20 @@ const financialIndicators = [
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
-
   .access-promise p:last-child {
     font-size: 0.9375rem;
     line-height: 1.6;
     margin-bottom: 0;
     color: rgba(255,255,255,0.9);
   }
-
   .access-promise strong {
     color: var(--color-white);
   }
-
   @media (max-width: 1024px) {
     .offerings-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
-
   @media (max-width: 768px) {
     .eligibility-row {
       grid-template-columns: 1fr;
@@ -461,7 +421,6 @@ const financialIndicators = [
       aspect-ratio: 16 / 9;
     }
   }
-
   @media (max-width: 600px) {
     .offerings-grid {
       grid-template-columns: 1fr;
