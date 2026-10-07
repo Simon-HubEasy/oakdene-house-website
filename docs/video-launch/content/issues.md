@@ -17,3 +17,4 @@ Until the corrected master arrives, Build 6 can do a test run on the compressed 
 - 7 October 2026: Simon confirmed the video on YouTube (QYXCzj4ghFM) is the corrected master. The "Recovering addict" name captions and the "Councillor" spelling are fixed. Build 6 social clips should be cut from this version, so no covering band is needed
 - 7 October 2026: Lead Story has approved the release. Oakdene commissioned and paid for the video, so it can be posted on Oakdene's channel and website
 - 7 October 2026: Simon confirmed all media release approvals are complete, including Anne Marie Durnan, Mark Henson, Tom Simpson and Anthony Sobb, covering the full video and the short social clips
+- 7 October 2026: the YouTube video (QYXCzj4ghFM) is Public. After the watch page is live, update the YouTube description's "Get support" area to add the watch page link if wanted
