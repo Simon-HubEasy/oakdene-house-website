@@ -1,0 +1,176 @@
+---
+// Click-to-load YouTube player. Nothing is requested from YouTube until the
+// play button is pressed; the thumbnail is served from our own /images/.
+interface Props {
+  youtubeId: string;
+  title: string;
+  thumbnail: string;
+  label: string;
+  loading?: 'lazy' | 'eager';
+}
+
+const {
+  youtubeId,
+  title,
+  thumbnail,
+  label,
+  loading = 'lazy',
+} = Astro.props;
+
+const watchUrl = `https://www.youtube.com/watch?v=${youtubeId}`;
+---
+
+<div class="video-player" data-youtube-id={youtubeId} data-title={title}>
+  <button type="button" class="video-player__button" aria-label={label}>
+    <img
+      class="video-player__thumb"
+      src={thumbnail}
+      alt=""
+      width="1280"
+      height="720"
+      loading={loading}
+      fetchpriority={loading === 'eager' ? 'high' : 'auto'}
+      decoding="async"
+    />
+    <span class="video-player__icon" aria-hidden="true">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
+    </span>
+  </button>
+  <noscript>
+    <a class="video-player__fallback" href={watchUrl} target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+  </noscript>
+</div>
+
+<script>
+  import { trackEvent, videoLocation } from '../scripts/analytics';
+
+  function loadPlayer(player: HTMLElement) {
+    const id = player.dataset.youtubeId;
+    if (!id) return;
+
+    const iframe = document.createElement('iframe');
+    iframe.className = 'video-player__frame';
+    iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&cc_load_policy=1&cc_lang_pref=en&rel=0`;
+    iframe.title = player.dataset.title || 'Video';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+    iframe.allowFullscreen = true;
+
+    player.querySelector('.video-player__button')?.replaceWith(iframe);
+    player.classList.add('video-player--playing');
+    iframe.focus();
+
+    trackEvent('video_play', {
+      video_title: player.dataset.title || '',
+      video_location: videoLocation(),
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('.video-player').forEach((player) => {
+    player.querySelector('.video-player__button')?.addEventListener('click', () => loadPlayer(player), { once: true });
+  });
+</script>
+
+<style>
+  .video-player {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background-color: var(--color-primary);
+    box-shadow: var(--shadow-card);
+  }
+
+  .video-player__button {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .video-player__thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition);
+  }
+
+  .video-player__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 76px;
+    height: 76px;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    transition: background-color var(--transition), transform var(--transition);
+  }
+
+  .video-player__icon svg {
+    margin-left: 4px;
+  }
+
+  .video-player__button:hover .video-player__thumb {
+    transform: scale(1.02);
+  }
+
+  .video-player__button:hover .video-player__icon {
+    background-color: var(--color-primary-hover);
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+
+  .video-player__button:focus-visible {
+    outline: 3px solid var(--color-white);
+    outline-offset: -6px;
+  }
+
+  .video-player__button:focus-visible .video-player__icon {
+    background-color: var(--color-primary-hover);
+  }
+
+  .video-player :global(.video-player__frame) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .video-player__fallback {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    background-color: var(--color-white);
+    color: var(--color-primary);
+    padding: 10px 20px;
+    border-radius: var(--radius-btn);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  @media (max-width: 640px) {
+    .video-player__icon {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .video-player__thumb,
+    .video-player__icon {
+      transition: none;
+    }
+  }
+</style>

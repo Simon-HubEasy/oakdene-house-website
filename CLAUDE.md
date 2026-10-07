@@ -3,13 +3,63 @@
 ## Project overview
 This is the official website for Oakdene House Foundation, a community charity based in Fairfield, Western Sydney. The site supports people and families affected by addiction, hardship, homelessness, and life challenges. The tone is warm, human, practical and non-judgmental. Every design decision should reflect dignity and community.
 
+## Current project: video launch
+Adding the Oakdene video (produced by Lead Story) to the homepage and a new watch page at /about/the-oakdene-story/video/. All project material is in docs/video-launch/. Read docs/video-launch/README.md and docs/video-launch/content/issues.md before any video work. docs/ is never published (Astro only publishes src/pages and public).
+
+- Work on the branch feature/oakdene-video and commit after each working step with a clear message
+- Never merge to the live branch or deploy without Simon's explicit approval, given as the words "approved to deploy"
+- Don't change sections or pages outside the task
+- Every build ends with tests and a pass or fail table
+- The pack's own CLAUDE.md is kept for reference as docs/video-launch/CLAUDE-pack-original.md. Where it differs from this file (colours in particular), this file wins
+
+### Writing rules for new content
+- Australian English (organise, colour, centre, program)
+- Plain, direct language. Compassionate, practical and community-centred tone
+- Person-first wording: "person in recovery", "people affected by addiction", "lived experience". Never write "addict" in page text, alt text, captions or metadata
+- No em dashes in new content. Use a comma or a full stop. Existing pages are not rewritten for this
+- Headings are short and say plainly what the section is
+- Transcripts and quotes stay word for word, including the reporter's questions
+- Video copy uses "29 Vine Street"; the rest of the site keeps "29 Vine St"
+
 ## Tech stack
-- Framework: Astro (latest stable) — static output only
+- Framework: Astro 6 — static output only
 - Styling: Plain CSS with custom properties — NO Tailwind, NO CSS frameworks
-- Hosting: Cloudflare Pages
-- CMS: Decap CMS (for staff content editing via browser)
-- Forms: Jotform embeds — never build custom form backends
-- No database, no server-side rendering, no API routes
+- Hosting: Cloudflare Pages, built from Git (see Build and deploy)
+- CMS: Decap CMS planned (for staff content editing via browser), not yet configured
+- Forms: Jotform embeds for referral and volunteering. The Contact page form is the one exception (see Forms)
+- No database and no server-side rendering. The only server code is the Cloudflare Pages Function in functions/api/contact.js
+
+## Build and deploy
+- The live site is published by the Cloudflare Pages project `oakdene-house-website` in Matt Baldwin's Cloudflare account (the account that also holds the oakdenehouse.org.au domain). That project builds from mattmbaldwin/oakdene-house-website, main branch. This repository, Simon-HubEasy/oakdene-house-website, is a fork of it
+- To publish: merge work into main here, then open a pull request from Simon-HubEasy:main into mattmbaldwin/oakdene-house-website main. Matt merges it (Simon has no write access there), and Cloudflare publishes automatically within a few minutes. Merging into main here does not change the live site on its own
+- A second Pages project, `oakdene-house-website-exk` in Simon's own Cloudflare account, builds this repository and posts preview links on pull requests (oakdene-house-website-exk.pages.dev). It is a test copy only and serves no custom domains. A Pages project can only use the apex domain if it is in the same Cloudflare account as the domain
+- Planned: move the domain and hosting into an Oakdene-owned Cloudflare and GitHub account, or have Matt transfer the repository and add Simon as Super Administrator, so Oakdene controls its own site
+- Build command: npm run build. Output folder: dist/. Framework preset: Astro. No wrangler.toml and no CI workflow in the repo
+- Create Pages projects through Workers & Pages > Create application > Pages (Import an existing Git repository). The default Create flow makes a Worker, which runs `wrangler deploy` and does not run functions/api/contact.js
+- public/_redirects holds the 301 redirects for moved pages
+- Sitemap: @astrojs/sitemap builds sitemap-index.xml and sitemap-0.xml from every page. Pages left out are listed in SITEMAP_EXCLUDE in astro.config.mjs. Any new noindex, thank-you or error page must be added there
+- public/robots.txt allows all crawlers, skips /api/ and names the sitemap. Cloudflare's Bot Preference Sync is on for the zone, so the live file starts with Cloudflare's AI-crawler lines followed by ours
+- Analytics: Google Analytics 4 (property G-LGB2GV15KV) is installed through Cloudflare's Google tag gateway, set up in the Cloudflare dashboard on 8 September 2026. The tag is served first-party from /metrics/ and defines window.gtag; there is no GA script in the repo. Do not add GA4 in Zaraz as well: a Zaraz GA4 tool was removed on purpose to stop double-counting. Custom events go through trackEvent() in src/scripts/analytics.ts, which calls gtag and does nothing if it is not loaded. Events: video_play (video_title, video_location) and video_transcript_click (video_location). To report on the parameters, register video_title and video_location as event-scoped custom dimensions in GA4
+- Roll back by redeploying the previous production deployment in the Cloudflare dashboard, or by reverting the merge commit on the live branch
+
+## Commands
+Node 22.12 or later.
+- npm install
+- npm run dev (local server at localhost:4321)
+- npm run build (outputs to dist/)
+- npm run preview (serves dist/)
+
+## Checks
+- There are no test, lint or type check scripts. npm run build is the only automated check today
+- For each video build, the test step runs ad hoc checks through npx: Lighthouse and @axe-core/cli against the preview server, using the pre-installed Chromium
+- Never report a build as done without running npm run build and the build's test step
+
+## Forms
+- Jotform embeds: services/referral.astro and community-programs/volunteering/index.astro
+- Contact page: posts to /api/contact, a Cloudflare Pages Function (functions/api/contact.js) that checks Cloudflare Turnstile and sends the message by email through Resend
+- The Pages Function needs these environment variables in the Cloudflare Pages project (Settings > Variables and secrets): CONTACT_EMAIL_FROM and CONTACT_EMAIL_TO as text, RESEND_API_KEY and TURNSTILE_SECRET_KEY as secrets. Locally they go in .dev.vars (see .dev.vars.example, never commit real values)
+- Turnstile widget site key: 0x4AAAAAADFd373EZuMIVXX0 (in src/pages/contact.astro). Its Hostnames list must include every address the form runs on: oakdenehouse.org.au and www.oakdenehouse.org.au, plus oakdene-house-website-exk.pages.dev if the test copy's Contact form is used
+- Don't build any new form backends. New forms are Jotform embeds
 
 ## Design philosophy
 This site must feel warm, human and trustworthy — not corporate, not clinical, not generic. Avoid AI-slop aesthetics. Specific rules:
@@ -25,6 +75,7 @@ This site must feel warm, human and trustworthy — not corporate, not clinical,
 - The "Need Help Now" page should feel calm and reassuring, not alarming
 
 ## Brand tokens — use these exact values everywhere
+These match the custom properties in src/styles/global.css. Use the variables (var(--color-primary) and so on), not hard-coded values. Don't use the colours in the video pack (#004E60, #003147, #B9D2E9); they are not the site's colours. Social clip bands use #003E51.
 - Primary: #003E51 (deep teal)
 - Secondary: #C6D6E3 (blue-grey)
 - Light tint: #F0F5F8
@@ -78,7 +129,7 @@ All images are in public/images/ and served from /images/
 - Oakdene tree: /images/about/ (4 images — use on About/Story page)
 - Staff photos: /images/team/ (11 images)
 - Generic community photos: /images/generic/ (23 images total)
-- Patrons: /images/patrons/ (14 images — Bo Bernard x12, Tom Roberts x2)
+- Patrons: /images/patrons/ (14 images — Bo Bernhard x12, Tom Roberts x2)
 
 ### Icons
 - Filled icon set: /images/icons/filled/ (1,001 icons — use for service page icons)
@@ -159,7 +210,7 @@ All images are in public/images/ and served from /images/
 ## Crisis helpline numbers — use these exactly
 - Lifeline: 13 11 14
 - Beyond Blue: 1300 224 636
-- Gambling Help: 1800 858 858
+- GambleAware NSW (gambling help): 1800 858 858
 - 1800RESPECT: 1800 737 732
 - AA Help Line: 1300 222 222
 - Salvation Army: 1300 36 36 22
@@ -167,7 +218,8 @@ All images are in public/images/ and served from /images/
 ## File and folder conventions
 - All page files: lowercase with hyphens (e.g. life-choices-program.astro)
 - All component files: PascalCase (e.g. ServiceCard.astro)
-- All content files: JSON in src/content/
+- Shared client-side scripts: src/scripts/ (TypeScript modules imported by component and page <script> tags)
+- All content files: JSON in src/content/. Exception: the video watch page reads video.json and transcript.txt from docs/video-launch/content/ at build time, so the launch pack stays the single source
 - Images served from /images/ (files live in public/images/)
 - PDFs in public/downloads/
 - Never use inline styles — always CSS classes or custom properties
@@ -178,47 +230,47 @@ All images are in public/images/ and served from /images/
 
 ## Component conventions
 - Every page uses BaseLayout.astro
-- BaseLayout accepts: title, description, ogImage props
-- Hero.astro accepts: heading, subheading, image, buttons array
-- CTABand.astro accepts: heading, subheading, buttons array, dark boolean
-- ServiceCard.astro accepts: title, summary, href, image, icon (optional)
-- InfoTable.astro accepts: rows array of {label, value} objects
-- TestimonialBlock.astro accepts: quotes array from testimonials.json
+- BaseLayout accepts: title, description (optional), ogImage (optional, defaults to /images/hero/hero-centre-1.jpg), noindex (optional boolean), ogType (optional, defaults to 'website'). It has a named slot "head" for page-specific head content such as JSON-LD (use slot="head" on the element)
+- Hero.astro accepts: heading, subheading, image, imageAlt, buttons array of {text, href, variant: 'white' | 'white-outline'}
+- CTABand.astro accepts: heading, subheading, primaryBtn {text, href}, secondaryBtn {text, href}, dark boolean (defaults to true)
+- ServiceCard.astro accepts: title, summary, href, image, imageAlt, imagePosition, icon, eyebrow (all but the first three optional)
+- InfoTable.astro accepts: rows array of {label, value} objects, caption (optional)
+- TestimonialBlock.astro accepts: quotes array of {quote, attribution} from testimonials.json
+- StatsGrid.astro accepts: stats array of {number, label}
+- FAQAccordion.astro accepts: faqs array of {question, answer} from faqs.json
+- VideoPlayer.astro accepts: youtubeId, title, thumbnail, label (the play button's screen reader label), loading ('lazy' default, 'eager' above the fold). Loads the youtube-nocookie.com player only when the play button is pressed
 
-## Page structure — all pages to build
-### Main navigation pages
-1. Home (index.astro)
-2. About (about.astro) — with subpages: the-oakdene-story, our-team, our-board, our-centre
-3. Services (services.astro) — with 11 subpages
-4. Community Programs (community-programs.astro)
-5. Volunteering (volunteering.astro) — with subpages: community-volunteers, corporate-volunteering
-6. Resources (resources.astro) — with subpages: flyers-and-brochures, information-sheets
-7. Service Directory (service-directory.astro)
-8. Forms (forms.astro)
-9. Need Help Now (need-help-now.astro)
-10. Contact (contact.astro)
+## Page structure — current routes
+All in src/pages/. URLs use trailing slashes.
+
+### Main pages
+- / (index.astro)
+- /about/ with subpages /about/the-oakdene-story/, /about/our-team/, /about/our-board/ (noindex), /about/our-centre/
+- /about/the-oakdene-story/video/ (video watch page)
+- /services/ with subpages: individual-counselling, gambling-counselling, financial-counselling, group-dbt-therapy, life-choices-program, outpatients-program, aa-ga-meetings, referral (Jotform) and referral/thank-you
+- /community-programs/ with subpages: oakdene-kitchen, staple-food-packs, oakdene-laundrette, used-clothing-store, ladies-boutique
+- /community-programs/volunteering/ (Jotform) with subpages community-volunteers, corporate-volunteering and thank-you
+- /resources/ with subpages flyers-and-brochures and information-sheets
+- /service-directory/
+- /need-help-now/
+- /contact/ (form posts to /api/contact)
+- /faq/
 
 ### Utility pages
-- 404.astro
-- thankyou.astro
+- 404.astro, thankyou.astro
+- accessibility.astro, privacy-policy.astro, terms-of-use.astro
+- support-us.astro (noindex, Donate calls to action removed sitewide)
 
-### Service subpages
-- services/oakdene-kitchen.astro
-- services/staple-food-packs.astro
-- services/oakdene-laundrette.astro
-- services/used-clothing-store.astro
-- services/ladies-boutique.astro
-- services/life-choices-program.astro
-- services/outpatients-program.astro
-- services/individual-counselling.astro
-- services/gambling-counselling.astro
-- services/aa-ga-meetings.astro
-- services/financial-counselling.astro
+### Moved pages (301 redirects in public/_redirects)
+- /forms/ goes to /contact/
+- /volunteering/ and its subpages go to /community-programs/volunteering/
+- /services/oakdene-kitchen/, staple-food-packs, oakdene-laundrette, used-clothing-store and ladies-boutique go to the matching /community-programs/ page
+- When a page moves, add its old URL to public/_redirects
 
 ## Things to never do
 - Never use Tailwind or any CSS utility framework
 - Never add a database or server-side rendering
-- Never hardcode form backends — always Jotform embeds
+- Never build a new form backend. New forms are Jotform embeds (the Contact page function is the only exception)
 - Never invent organisation details, phone numbers or addresses
 - Never use lorem ipsum — always use real Oakdene content
 - Never add jQuery
@@ -227,7 +279,7 @@ All images are in public/images/ and served from /images/
 - Never reproduce the same card-grid layout on every section
 
 ## Jotform links
-All form links placeholder until Jotform is built. Use href="#form-placeholder" and comment: <!-- TODO: Replace with live Jotform URL -->
+Live Jotform embeds are on the referral and volunteering pages. For any new form not yet built in Jotform, use href="#form-placeholder" and comment: <!-- TODO: Replace with live Jotform URL -->
 
 ## Google Maps
 Contact page needs a Google Maps embed for 29 Vine St, Fairfield NSW 2165. Use a placeholder comment: <!-- TODO: Add Google Maps embed code -->
@@ -255,4 +307,4 @@ Config in public/admin/config.yml. Staff edit via /admin/ in browser.
 - [x] 404 and Thank You pages built
 - [ ] Decap CMS configured
 - [ ] Images optimised for web
-- [ ] Deployed to Cloudflare Pages
+- [x] Deployed to Cloudflare Pages (from mattmbaldwin/oakdene-house-website; see Build and deploy)

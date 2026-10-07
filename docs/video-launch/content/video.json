@@ -1,0 +1,29 @@
+{
+  "youtube_id": "QYXCzj4ghFM",
+  "title": "Oakdene House Foundation | Free addiction support in Fairfield, Western Sydney",
+  "description": "Oakdene House is a calm place where people affected by addiction and gambling harm can come without being judged. Hear from Anne Marie Durnan, Anthony Sobb, Mark Henson, Tom Simpson and Professor Bo Bernhard.",
+  "upload_date": "2026-10-07",
+  "duration_iso": "PT4M15S",
+  "duration_seconds": 255,
+  "producer": "Lead Story",
+  "watch_page_path": "/about/the-oakdene-story/video/",
+  "thumbnail_path": "public/images/video/oakdene-video-thumb.jpg",
+  "transcript_file": "transcript.txt",
+  "captions_file": "captions.srt",
+  "chapters": [
+    {"time": "0:00", "seconds": 0, "title": "Oakdene House"},
+    {"time": "0:29", "seconds": 29, "title": "Anne Marie's story"},
+    {"time": "0:59", "seconds": 59, "title": "Anthony Sobb and Fairfield RSL"},
+    {"time": "1:27", "seconds": 87, "title": "The science of treatment"},
+    {"time": "2:07", "seconds": 127, "title": "Recovery and family"},
+    {"time": "2:30", "seconds": 150, "title": "Lived experience"},
+    {"time": "3:02", "seconds": 182, "title": "Community programs"},
+    {"time": "3:22", "seconds": 202, "title": "Why we act"},
+    {"time": "3:37", "seconds": 217, "title": "Getting your life back"}
+  ],
+  "contact": {
+    "phone": "(02) 8717 0999",
+    "address": "29 Vine Street, Fairfield NSW 2165",
+    "gambling_helpline": "GambleAware NSW 1800 858 858"
+  }
+}

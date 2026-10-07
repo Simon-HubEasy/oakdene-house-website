@@ -1,0 +1,323 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import VideoPlayer from '../../../components/VideoPlayer.astro';
+
+// Single source of truth for the video launch lives in docs/video-launch/content/.
+// docs/ is read at build time only and is never published.
+import video from '../../../../docs/video-launch/content/video.json';
+import transcriptRaw from '../../../../docs/video-launch/content/transcript.txt?raw';
+
+const siteUrl = 'https://oakdenehouse.org.au';
+const thumbnail = video.thumbnail_path.replace(/^public/, '');
+const pageUrl = new URL(video.watch_page_path, siteUrl).href;
+const watchUrl = `https://www.youtube.com/watch?v=${video.youtube_id}`;
+
+// Transcript turns: a "[m:ss] Speaker" line followed by that speaker's words.
+interface Turn {
+  time: string;
+  speaker: string;
+  text: string;
+}
+
+const turns: Turn[] = [];
+for (const line of transcriptRaw.split(/\r?\n/)) {
+  const marker = line.match(/^\[(\d+:\d{2})\]\s+(.+?)\s*$/);
+  if (marker) {
+    turns.push({ time: marker[1], speaker: marker[2], text: '' });
+  } else if (turns.length && line.trim()) {
+    const turn = turns[turns.length - 1];
+    turn.text = turn.text ? `${turn.text} ${line.trim()}` : line.trim();
+  }
+}
+
+const minutes = Math.floor(video.duration_seconds / 60);
+const seconds = video.duration_seconds % 60;
+const durationText = `${minutes} minutes ${seconds} seconds`;
+
+// VideoObject structured data, built from video.json.
+const chapters = video.chapters;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: video.title,
+  description: video.description,
+  thumbnailUrl: [new URL(thumbnail, siteUrl).href],
+  uploadDate: `${video.upload_date}T00:00:00+11:00`,
+  duration: video.duration_iso,
+  contentUrl: watchUrl,
+  embedUrl: `https://www.youtube.com/embed/${video.youtube_id}`,
+  url: pageUrl,
+  inLanguage: 'en-AU',
+  transcript: turns.map(t => `${t.speaker}: ${t.text}`).join('\n'),
+  publisher: {
+    '@type': 'Organization',
+    name: 'Oakdene House Foundation',
+    url: siteUrl,
+    logo: {
+      '@type': 'ImageObject',
+      url: new URL('/images/logos/oakdene-hero-logo.png', siteUrl).href,
+    },
+  },
+  hasPart: chapters.map((chapter, i) => ({
+    '@type': 'Clip',
+    name: chapter.title,
+    startOffset: chapter.seconds,
+    endOffset: i + 1 < chapters.length ? chapters[i + 1].seconds : video.duration_seconds,
+    url: `${watchUrl}&t=${chapter.seconds}s`,
+  })),
+};
+const jsonLdHtml = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
+---
+
+<BaseLayout
+  title="Our story | Oakdene House Foundation, Fairfield"
+  description="Watch how Oakdene House supports people affected by addiction and gambling harm in Fairfield, Western Sydney, with free counselling, group programs and community services."
+  ogImage={thumbnail}
+  ogType="video.other"
+>
+  <script slot="head" type="application/ld+json" set:html={jsonLdHtml} />
+
+  <!-- HEADER -->
+  <section class="page-hero" aria-label="Our story">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span class="breadcrumb__sep" aria-hidden="true">/</span>
+        <a href="/about/">About</a>
+        <span class="breadcrumb__sep" aria-hidden="true">/</span>
+        <a href="/about/the-oakdene-story/">The Oakdene Story</a>
+        <span class="breadcrumb__sep" aria-hidden="true">/</span>
+        <span aria-current="page">Our story</span>
+      </nav>
+      <h1>Our story</h1>
+      <p class="page-hero__lead">Oakdene House offers free counselling and practical support to people affected by addiction and gambling harm in Fairfield. In this short film, people in recovery, our counsellors and our founding chairman talk about what that support means.</p>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section class="section watch-video" aria-label="Video">
+    <div class="container watch-container">
+      <VideoPlayer
+        youtubeId={video.youtube_id}
+        title={video.title}
+        thumbnail={thumbnail}
+        label="Play video: Oakdene House Foundation, our story"
+        loading="eager"
+      />
+      <p class="watch-meta">Length {durationText}. Captions are on when the video plays, and you can read the full transcript below.</p>
+
+      <figure class="watch-quote">
+        <blockquote>
+          <p>"It's like the chains have been cut and they get to be the best version of themselves again."</p>
+        </blockquote>
+        <figcaption>Anne Marie Durnan</figcaption>
+      </figure>
+
+      <p class="watch-credit">Video produced by Lead Story.</p>
+    </div>
+  </section>
+
+  <!-- TRANSCRIPT -->
+  <section class="section section--tint" aria-labelledby="transcript-heading">
+    <div class="container watch-container">
+      <div class="section-heading">
+        <h2 id="transcript-heading">Transcript</h2>
+      </div>
+      <details class="transcript-toggle">
+        <summary class="transcript-toggle__summary">
+          <span class="transcript-toggle__show">Show transcript</span>
+          <span class="transcript-toggle__hide">Hide transcript</span>
+          <svg class="transcript-toggle__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="transcript">
+          {turns.map(turn => (
+            <p class="transcript__turn">
+              <span class="transcript__time">{turn.time}</span>
+              <strong class="transcript__speaker">{turn.speaker}</strong>
+              <span class="transcript__text">{turn.text}</span>
+            </p>
+          ))}
+        </div>
+      </details>
+
+      <div class="btn-group watch-actions">
+        <a href="/services/referral/" class="btn btn--primary">Get support</a>
+        <a href="/contact/" class="btn btn--secondary">Contact us</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .watch-container {
+    max-width: 880px;
+  }
+
+  .watch-video {
+    padding-top: 56px;
+  }
+
+  .watch-meta {
+    margin-top: 16px;
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+  }
+
+  /* Closing quote */
+  .watch-quote {
+    margin: 48px 0 0;
+    padding: 8px 0 8px 28px;
+    border-left: 4px solid var(--color-secondary);
+  }
+
+  .watch-quote blockquote {
+    margin: 0;
+  }
+
+  .watch-quote p {
+    font-size: 1.5rem;
+    line-height: 1.45;
+    font-weight: 500;
+    color: var(--color-primary);
+    margin-bottom: 12px;
+  }
+
+  .watch-quote figcaption {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .watch-credit {
+    margin-top: 32px;
+    margin-bottom: 0;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  /* Transcript dropdown, collapsed by default (matches the FAQ accordion) */
+  .transcript-toggle {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-secondary);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    transition: box-shadow var(--transition);
+  }
+
+  .transcript-toggle[open] {
+    box-shadow: var(--shadow-card);
+  }
+
+  .transcript-toggle__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 24px;
+    font-weight: 600;
+    color: var(--color-primary);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    transition: background-color var(--transition);
+  }
+
+  .transcript-toggle__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .transcript-toggle__summary:hover,
+  .transcript-toggle[open] .transcript-toggle__summary {
+    background-color: var(--color-tint);
+  }
+
+  .transcript-toggle[open] .transcript-toggle__summary {
+    border-bottom: 1px solid var(--color-secondary);
+  }
+
+  .transcript-toggle__summary:focus-visible {
+    outline: 3px solid var(--color-primary-hover);
+    outline-offset: -3px;
+  }
+
+  .transcript-toggle__hide,
+  .transcript-toggle[open] .transcript-toggle__show {
+    display: none;
+  }
+
+  .transcript-toggle[open] .transcript-toggle__hide {
+    display: inline;
+  }
+
+  .transcript-toggle__chevron {
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+  }
+
+  .transcript-toggle[open] .transcript-toggle__chevron {
+    transform: rotate(180deg);
+  }
+
+  .transcript {
+    padding: 28px 24px 8px;
+  }
+
+  .transcript__turn {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    column-gap: 16px;
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+
+  .transcript__time {
+    grid-row: span 2;
+    padding-top: 2px;
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
+  }
+
+  .transcript__speaker {
+    display: block;
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .watch-actions {
+    margin-top: 40px;
+  }
+
+  @media (max-width: 640px) {
+    .watch-video {
+      padding-top: 32px;
+    }
+
+    .watch-quote {
+      margin-top: 36px;
+      padding-left: 20px;
+    }
+
+    .watch-quote p {
+      font-size: 1.25rem;
+    }
+
+    .transcript-toggle__summary {
+      padding: 18px 20px;
+    }
+
+    .transcript {
+      padding: 24px 20px 4px;
+    }
+
+    .transcript__turn {
+      grid-template-columns: 1fr;
+    }
+
+    .transcript__time {
+      grid-row: auto;
+      padding-top: 0;
+    }
+  }
+</style>
