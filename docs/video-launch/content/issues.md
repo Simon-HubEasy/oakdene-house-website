@@ -14,3 +14,4 @@ Until the corrected master arrives, Build 6 can do a test run on the compressed 
 
 - 7 October 2026: thumbnail is the frame at 0:53 (candidate_53s.jpg), saved as public/images/video/oakdene-video-thumb.jpg (1280 x 720)
 - 7 October 2026: the 3:17 speaker is shown as "Speaker" in the transcript until Lead Story confirms the name. The spoken words are unchanged. Still not to be quoted by name
+- 7 October 2026: Simon confirmed the video on YouTube (QYXCzj4ghFM) is the corrected master. The "Recovering addict" name captions and the "Councillor" spelling are fixed. Build 6 social clips should be cut from this version, so no covering band is needed
