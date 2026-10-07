@@ -30,13 +30,15 @@ Adding the Oakdene video (produced by Lead Story) to the homepage and a new watc
 - No database and no server-side rendering. The only server code is the Cloudflare Pages Function in functions/api/contact.js
 
 ## Build and deploy
-- Cloudflare Pages connected to the GitHub repo. No wrangler.toml and no CI workflow in the repo
-- Build command: npm run build. Output folder: dist/
-- Live (production) branch: main (confirmed by Simon, 7 October 2026). Merging to main publishes the site
-- Any other pushed branch may get a Cloudflare preview deploy; it does not change the live site
+- The live site is published by the Cloudflare Pages project `oakdene-house-website` in Matt Baldwin's Cloudflare account (the account that also holds the oakdenehouse.org.au domain). That project builds from mattmbaldwin/oakdene-house-website, main branch. This repository, Simon-HubEasy/oakdene-house-website, is a fork of it
+- To publish: merge work into main here, then open a pull request from Simon-HubEasy:main into mattmbaldwin/oakdene-house-website main. Matt merges it (Simon has no write access there), and Cloudflare publishes automatically within a few minutes. Merging into main here does not change the live site on its own
+- A second Pages project, `oakdene-house-website-exk` in Simon's own Cloudflare account, builds this repository and posts preview links on pull requests (oakdene-house-website-exk.pages.dev). It is a test copy only and serves no custom domains. A Pages project can only use the apex domain if it is in the same Cloudflare account as the domain
+- Planned: move the domain and hosting into an Oakdene-owned Cloudflare and GitHub account, or have Matt transfer the repository and add Simon as Super Administrator, so Oakdene controls its own site
+- Build command: npm run build. Output folder: dist/. Framework preset: Astro. No wrangler.toml and no CI workflow in the repo
+- Create Pages projects through Workers & Pages > Create application > Pages (Import an existing Git repository). The default Create flow makes a Worker, which runs `wrangler deploy` and does not run functions/api/contact.js
 - public/_redirects holds the 301 redirects for moved pages
 - Sitemap: @astrojs/sitemap builds sitemap-index.xml and sitemap-0.xml from every page. Pages left out are listed in SITEMAP_EXCLUDE in astro.config.mjs. Any new noindex, thank-you or error page must be added there
-- public/robots.txt allows all crawlers, skips /api/ and names the sitemap. Cloudflare's Managed robots.txt setting, if on, adds its own lines to the live file
+- public/robots.txt allows all crawlers, skips /api/ and names the sitemap. Cloudflare's Bot Preference Sync is on for the zone, so the live file starts with Cloudflare's AI-crawler lines followed by ours
 - Analytics: Google Analytics 4 (property G-LGB2GV15KV) is installed through Cloudflare's Google tag gateway, set up in the Cloudflare dashboard on 8 September 2026. The tag is served first-party from /metrics/ and defines window.gtag; there is no GA script in the repo. Do not add GA4 in Zaraz as well: a Zaraz GA4 tool was removed on purpose to stop double-counting. Custom events go through trackEvent() in src/scripts/analytics.ts, which calls gtag and does nothing if it is not loaded. Events: video_play (video_title, video_location) and video_transcript_click (video_location). To report on the parameters, register video_title and video_location as event-scoped custom dimensions in GA4
 - Roll back by redeploying the previous production deployment in the Cloudflare dashboard, or by reverting the merge commit on the live branch
 
@@ -55,7 +57,8 @@ Node 22.12 or later.
 ## Forms
 - Jotform embeds: services/referral.astro and community-programs/volunteering/index.astro
 - Contact page: posts to /api/contact, a Cloudflare Pages Function (functions/api/contact.js) that checks Cloudflare Turnstile and sends the message by email through Resend
-- The Pages Function needs these environment variables in Cloudflare: RESEND_API_KEY, CONTACT_EMAIL_TO, CONTACT_EMAIL_FROM, TURNSTILE_SECRET_KEY. Locally they go in .dev.vars (see .dev.vars.example, never commit real values)
+- The Pages Function needs these environment variables in the Cloudflare Pages project (Settings > Variables and secrets): CONTACT_EMAIL_FROM and CONTACT_EMAIL_TO as text, RESEND_API_KEY and TURNSTILE_SECRET_KEY as secrets. Locally they go in .dev.vars (see .dev.vars.example, never commit real values)
+- Turnstile widget site key: 0x4AAAAAADFd373EZuMIVXX0 (in src/pages/contact.astro). Its Hostnames list must include every address the form runs on: oakdenehouse.org.au and www.oakdenehouse.org.au, plus oakdene-house-website-exk.pages.dev if the test copy's Contact form is used
 - Don't build any new form backends. New forms are Jotform embeds
 
 ## Design philosophy
@@ -304,4 +307,4 @@ Config in public/admin/config.yml. Staff edit via /admin/ in browser.
 - [x] 404 and Thank You pages built
 - [ ] Decap CMS configured
 - [ ] Images optimised for web
-- [ ] Deployed to Cloudflare Pages
+- [x] Deployed to Cloudflare Pages (from mattmbaldwin/oakdene-house-website; see Build and deploy)
