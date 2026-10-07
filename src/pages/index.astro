@@ -6,9 +6,11 @@ import ServiceCard from '../components/ServiceCard.astro';
 import TestimonialBlock from '../components/TestimonialBlock.astro';
 import FAQAccordion from '../components/FAQAccordion.astro';
 import StatsGrid from '../components/StatsGrid.astro';
+import VideoPlayer from '../components/VideoPlayer.astro';
 
 import allTestimonials from '../content/testimonials.json';
 import allFaqs from '../content/faqs.json';
+import video from '../../docs/video-launch/content/video.json';
 
 const testimonials = allTestimonials.filter(t => t.page === 'home');
 const faqs = allFaqs.slice(0, 4);
@@ -250,6 +252,28 @@ const steps = [
   </section>
 
   <!-- ============================================================
+       VIDEO
+       ============================================================ -->
+  <section class="section" aria-labelledby="video-heading">
+    <div class="container video-container">
+      <div class="section-heading section-heading--center">
+        <p class="section-heading__eyebrow">Watch</p>
+        <h2 id="video-heading">Our story</h2>
+        <p class="section-heading__lead">Hear from people in recovery, our counsellors and the people who started Oakdene House.</p>
+      </div>
+      <VideoPlayer
+        youtubeId={video.youtube_id}
+        title={video.title}
+        thumbnail={video.thumbnail_path.replace(/^public/, '')}
+        label="Play video: Oakdene House Foundation, our story"
+      />
+      <div class="section-action">
+        <a href={video.watch_page_path} class="btn btn--secondary">Watch with transcript</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
        FINAL CTA
        ============================================================ -->
   <CTABand
@@ -340,6 +364,11 @@ const steps = [
     margin-top: 28px;
     font-size: 0.9375rem;
     line-height: 1.6;
+  }
+
+  /* ---- Video section width ---- */
+  .video-container {
+    max-width: 880px;
   }
 
   /* ---- FAQ max-width ---- */
