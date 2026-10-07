@@ -32,7 +32,7 @@ Adding the Oakdene video (produced by Lead Story) to the homepage and a new watc
 ## Build and deploy
 - Cloudflare Pages connected to the GitHub repo. No wrangler.toml and no CI workflow in the repo
 - Build command: npm run build. Output folder: dist/
-- Live (production) branch: assumed main. To confirm in the Cloudflare dashboard (Workers & Pages, the project, Settings, Builds)
+- Live (production) branch: main (confirmed by Simon, 7 October 2026). Merging to main publishes the site
 - Any other pushed branch may get a Cloudflare preview deploy; it does not change the live site
 - public/_redirects holds the 301 redirects for moved pages
 - Sitemap: @astrojs/sitemap builds sitemap-index.xml and sitemap-0.xml from every page. Pages left out are listed in SITEMAP_EXCLUDE in astro.config.mjs. Any new noindex, thank-you or error page must be added there
