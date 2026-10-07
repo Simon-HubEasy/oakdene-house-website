@@ -13,37 +13,6 @@ const hoursRows = [
   { label: 'Counselling',           value: 'By appointment' },
   { label: 'Life Choices Program',  value: 'See <a href="/services/life-choices-program/">program page</a> for full schedule' },
 ];
-
-const contactCards = [
-  {
-    icon: 'phone',
-    heading: 'Phone',
-    detail: '(02) 8717 0999',
-    href: 'tel:0287170999',
-    note: 'Give us a call during business hours',
-  },
-  {
-    icon: 'email',
-    heading: 'Email',
-    detail: 'admin@oakdenehouse.org.au',
-    href: 'mailto:admin@oakdenehouse.org.au',
-    note: 'Send us an email and we will get back to you',
-  },
-  {
-    icon: 'map',
-    heading: 'Visit Us',
-    detail: '29 Vine St, Fairfield NSW 2165',
-    href: null,
-    note: 'Parking via Fairfield RSL open air car park, corner of Vine and Bertha Streets',
-  },
-  {
-    icon: 'clock',
-    heading: 'Opening Hours',
-    detail: 'Monday–Friday',
-    href: null,
-    note: 'Hours to be confirmed with the Oakdene team',
-  },
-];
 ---
 
 <BaseLayout
@@ -103,6 +72,7 @@ const contactCards = [
           <p class="contact-card__heading">Opening Hours</p>
           <p class="contact-card__detail contact-card__detail--small">Monday to Friday</p>
           <p class="contact-card__note">9:00am – 5:00pm</p>
+          <p class="contact-card__note">Some programs run outside these hours. Check each program page for times.</p>
         </div>
 
       </div>
