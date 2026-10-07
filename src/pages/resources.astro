@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CTABand from '../components/CTABand.astro';
+import VideoPlayer from '../components/VideoPlayer.astro';
+import video from '../../docs/video-launch/content/video.json';
 
 const featured = [
   {
@@ -108,6 +110,17 @@ const availableResources = [
                 Videos
               </summary>
               <div class="resource-accordion__content">
+                <div class="video-item">
+                  <VideoPlayer
+                    youtubeId={video.youtube_id}
+                    title={video.title}
+                    thumbnail={video.thumbnail_path.replace(/^public/, '')}
+                    label="Play video: Oakdene House Foundation, our story"
+                  />
+                  <p class="video-item__title">Our story</p>
+                  <p class="video-item__meta">Hear from people in recovery, our counsellors and the people who started Oakdene House. <a href={video.watch_page_path}>Watch with transcript</a></p>
+                </div>
+
                 <div class="video-embed">
                   <iframe
                     src="https://www.youtube-nocookie.com/embed/lauQgtpYYGk"
@@ -340,6 +353,30 @@ const availableResources = [
     border-top: none;
     border-bottom-left-radius: var(--radius-btn);
     border-bottom-right-radius: var(--radius-btn);
+  }
+
+  .video-item {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--color-secondary);
+  }
+
+  .video-item__title {
+    margin: 14px 0 4px;
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .video-item__meta {
+    margin-bottom: 0;
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+  }
+
+  .video-item__meta a {
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .video-embed {
