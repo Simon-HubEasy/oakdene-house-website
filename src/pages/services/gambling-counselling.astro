@@ -306,4 +306,10 @@ import CTABand from '../../components/CTABand.astro';
       grid-template-columns: 1fr;
     }
   }
+
+  /* Links inside paragraph text need more than colour to stand out */
+  p a:not(.btn) {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 </style>
