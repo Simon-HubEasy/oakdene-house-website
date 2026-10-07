@@ -37,7 +37,7 @@ Adding the Oakdene video (produced by Lead Story) to the homepage and a new watc
 - public/_redirects holds the 301 redirects for moved pages
 - Sitemap: @astrojs/sitemap builds sitemap-index.xml and sitemap-0.xml from every page. Pages left out are listed in SITEMAP_EXCLUDE in astro.config.mjs. Any new noindex, thank-you or error page must be added there
 - public/robots.txt allows all crawlers, skips /api/ and names the sitemap. Cloudflare's Managed robots.txt setting, if on, adds its own lines to the live file
-- Analytics: Google Analytics 4 runs through Cloudflare Zaraz, set up in the Cloudflare dashboard (no GA script in the repo). Custom events go through trackEvent() in src/scripts/analytics.ts, which does nothing if Zaraz is not loaded. Events: video_play (video_title, video_location) and video_transcript_click (video_location). Each event needs a matching trigger and GA4 action in Zaraz
+- Analytics: Google Analytics 4 (property G-LGB2GV15KV) is installed through Cloudflare's Google tag gateway, set up in the Cloudflare dashboard on 8 September 2026. The tag is served first-party from /metrics/ and defines window.gtag; there is no GA script in the repo. Do not add GA4 in Zaraz as well: a Zaraz GA4 tool was removed on purpose to stop double-counting. Custom events go through trackEvent() in src/scripts/analytics.ts, which calls gtag and does nothing if it is not loaded. Events: video_play (video_title, video_location) and video_transcript_click (video_location). To report on the parameters, register video_title and video_location as event-scoped custom dimensions in GA4
 - Roll back by redeploying the previous production deployment in the Cloudflare dashboard, or by reverting the merge commit on the live branch
 
 ## Commands

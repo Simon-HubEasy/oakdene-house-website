@@ -1,20 +1,21 @@
-// Sends a custom event to Google Analytics 4 through Cloudflare Zaraz.
-// Zaraz is configured in the Cloudflare dashboard, not in this repo. If it is
-// not loaded (blocked, not set up, or local preview) this does nothing and
-// never throws.
+// Sends a custom event to Google Analytics 4 (property G-LGB2GV15KV).
+// GA4 is installed through Cloudflare's Google tag gateway, which serves the
+// tag first-party from /metrics/ and defines window.gtag on every page. There
+// is no GA script in this repo, and GA4 must not also be added in Zaraz (that
+// was removed on purpose to stop double-counting). If gtag is not loaded
+// (blocked, or local preview) this does nothing and never throws.
 
 type EventParams = Record<string, string>;
 
 declare global {
   interface Window {
-    zaraz?: { track?: (name: string, params?: EventParams) => unknown };
+    gtag?: (command: 'event', name: string, params?: EventParams) => void;
   }
 }
 
 export function trackEvent(name: string, params: EventParams = {}): void {
   try {
-    const result = window.zaraz?.track?.(name, params);
-    if (result instanceof Promise) result.catch(() => {});
+    if (typeof window.gtag === 'function') window.gtag('event', name, params);
   } catch {
     // Analytics must never break the page.
   }
