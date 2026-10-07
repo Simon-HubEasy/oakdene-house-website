@@ -116,7 +116,7 @@ function isActive(href: string) {
 </header>
 
 <!-- Mobile drawer -->
-<div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+<div class="mobile-drawer" id="mobile-drawer" aria-hidden="true" inert>
   <div class="mobile-drawer__inner">
     <nav aria-label="Mobile navigation">
       <ul class="mobile-nav-list" role="list">
@@ -648,6 +648,7 @@ function isActive(href: string) {
     overlay?.classList.add('is-open');
     hamburger?.setAttribute('aria-expanded', 'true');
     drawer?.setAttribute('aria-hidden', 'false');
+    drawer?.removeAttribute('inert');
     document.body.style.overflow = 'hidden';
   }
 
@@ -657,6 +658,7 @@ function isActive(href: string) {
     overlay?.classList.remove('is-open');
     hamburger?.setAttribute('aria-expanded', 'false');
     drawer?.setAttribute('aria-hidden', 'true');
+    drawer?.setAttribute('inert', '');
     document.body.style.overflow = '';
   }
 
