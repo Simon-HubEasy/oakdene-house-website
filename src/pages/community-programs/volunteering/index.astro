@@ -34,7 +34,7 @@ const types = [
 >
 
   <!-- HERO -->
-  <section class="vol-hero" aria-label="Volunteering at Oakdene">
+  <section class="vol-hero" aria-labelledby="vol-hero-heading">
     <div class="vol-hero__overlay" aria-hidden="true"></div>
     <div class="container vol-hero__content">
       <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -44,7 +44,7 @@ const types = [
         <span class="breadcrumb__sep" aria-hidden="true">/</span>
         <span aria-current="page">Volunteering</span>
       </nav>
-      <h1>Volunteer with Oakdene House Foundation</h1>
+      <h1 id="vol-hero-heading">Volunteer with Oakdene House Foundation</h1>
       <p class="vol-hero__lead">Volunteers play an important role at Oakdene House. They help create a welcoming environment, support practical programs and strengthen our connection to the community.</p>
     </div>
   </section>
@@ -305,7 +305,8 @@ const types = [
   .expect-item__number {
     font-size: 2.25rem;
     font-weight: 700;
-    color: var(--color-secondary);
+    color: var(--color-primary);
+    opacity: 0.6;
     line-height: 1;
     margin-bottom: 12px;
   }

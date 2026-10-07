@@ -70,6 +70,12 @@ const { rows, caption } = Astro.props;
     vertical-align: top;
   }
 
+  /* Links inside cell text need more than colour to stand out */
+  .info-table td :global(a) {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
   .info-table th {
     font-weight: 600;
     color: var(--color-primary);

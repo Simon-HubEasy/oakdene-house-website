@@ -33,7 +33,6 @@ Adding the Oakdene video (produced by Lead Story) to the homepage and a new watc
 - The live site is published by the Cloudflare Pages project `oakdene-house-website` in Matt Baldwin's Cloudflare account (the account that also holds the oakdenehouse.org.au domain). That project builds from mattmbaldwin/oakdene-house-website, main branch. This repository, Simon-HubEasy/oakdene-house-website, is a fork of it
 - To publish: merge work into main here, then open a pull request from Simon-HubEasy:main into mattmbaldwin/oakdene-house-website main. Matt merges it (Simon has no write access there), and Cloudflare publishes automatically within a few minutes. Merging into main here does not change the live site on its own
 - A second Pages project, `oakdene-house-website-exk` in Simon's own Cloudflare account, builds this repository and posts preview links on pull requests (oakdene-house-website-exk.pages.dev). It is a test copy only and serves no custom domains. A Pages project can only use the apex domain if it is in the same Cloudflare account as the domain
-- Planned: move the domain and hosting into an Oakdene-owned Cloudflare and GitHub account, or have Matt transfer the repository and add Simon as Super Administrator, so Oakdene controls its own site
 - Build command: npm run build. Output folder: dist/. Framework preset: Astro. No wrangler.toml and no CI workflow in the repo
 - Create Pages projects through Workers & Pages > Create application > Pages (Import an existing Git repository). The default Create flow makes a Worker, which runs `wrangler deploy` and does not run functions/api/contact.js
 - public/_redirects holds the 301 redirects for moved pages
@@ -144,6 +143,7 @@ All images are in public/images/ and served from /images/
 - Kitchen/Laundrette/Clothing contact: kitchen@oakdenehouse.org.au / 0415 156 100
 - Boutique contact: boutique@oakdenehouse.org.au / 0415 156 100
 - CEO: Simon Jarvis
+- Office hours: Monday to Friday, 9am–5pm. Some programs run outside these hours (each program page lists its times)
 
 ## Service operating details — confirmed, use exactly
 ### Oakdene Kitchen
@@ -156,8 +156,8 @@ All images are in public/images/ and served from /images/
 - Motto: "Feed the people, stay alive"
 
 ### Staple Food Packs
-- Day: Every Friday
-- Hours: 12pm–2pm
+- Day: Fridays only
+- Hours: 12pm–1pm
 - Starting: 17 April 2026
 - Cost: Free
 - Includes: Fresh fruit and vegetables, canned goods, long life milk, cereal, hygiene items (subject to availability)
@@ -196,6 +196,15 @@ All images are in public/images/ and served from /images/
 - Friday 5:00pm–6:30pm Zoom
 
 ## Impact stats — use these exact numbers
+Both sets are confirmed correct by Simon (7 October 2026). Don't change one to match the other.
+
+Homepage set (src/pages/index.astro):
+- 5,000+ Meals and food packs delivered annually
+- $250,000 Value of supplies provided annually
+- 2,000+ Individuals impacted
+- 25 Local organisation partnerships
+
+Second set (available for other pages):
 - 5,000+ People supported each year
 - 100+ Community events and workshops
 - 1,000+ Hours of one-to-one support
@@ -214,6 +223,10 @@ All images are in public/images/ and served from /images/
 - 1800RESPECT: 1800 737 732
 - AA Help Line: 1300 222 222
 - Salvation Army: 1300 36 36 22
+
+## Peer support contacts (AA & GA Meetings page)
+- Alcoholics Anonymous (AA) Australia: aa.org.au, 24-hour helpline 1300 22 22 22
+- Gamblers Anonymous (GA) NSW: ga.nsw.org.au, 0455 717 543
 
 ## File and folder conventions
 - All page files: lowercase with hyphens (e.g. life-choices-program.astro)
