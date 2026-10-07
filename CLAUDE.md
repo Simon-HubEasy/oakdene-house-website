@@ -35,6 +35,8 @@ Adding the Oakdene video (produced by Lead Story) to the homepage and a new watc
 - Live (production) branch: assumed main. To confirm in the Cloudflare dashboard (Workers & Pages, the project, Settings, Builds)
 - Any other pushed branch may get a Cloudflare preview deploy; it does not change the live site
 - public/_redirects holds the 301 redirects for moved pages
+- Sitemap: @astrojs/sitemap builds sitemap-index.xml and sitemap-0.xml from every page. Pages left out are listed in SITEMAP_EXCLUDE in astro.config.mjs. Any new noindex, thank-you or error page must be added there
+- public/robots.txt allows all crawlers, skips /api/ and names the sitemap. Cloudflare's Managed robots.txt setting, if on, adds its own lines to the live file
 - Roll back by redeploying the previous production deployment in the Cloudflare dashboard, or by reverting the merge commit on the live branch
 
 ## Commands
