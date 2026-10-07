@@ -26,6 +26,7 @@ export function trackEvent(name: string, params: EventParams = {}): void {
 export function videoLocation(pathname: string = window.location.pathname): string {
   if (pathname === '/') return 'homepage';
   if (pathname.startsWith('/about/the-oakdene-story/video')) return 'watch_page';
+  if (pathname.startsWith('/about/the-oakdene-story')) return 'story_page';
   if (pathname.startsWith('/resources')) return 'resources_page';
   return pathname;
 }
