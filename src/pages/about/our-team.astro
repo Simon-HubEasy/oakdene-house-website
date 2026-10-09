@@ -2,13 +2,14 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CTABand from '../../components/CTABand.astro';
 import people from '../../content/team.json';
+import pageText from '../../content/pages/about-our-team.json';
 
 const { team, patrons } = people;
 ---
 
 <BaseLayout
-  title="Our Team — Oakdene House Foundation"
-  description="Meet the Oakdene House Foundation team — dedicated people working across counselling, program delivery, operations and practical support in Fairfield, Western Sydney."
+  title={pageText.seo__browser_title}
+  description={pageText.seo__search_description}
   ogImage="/images/team/colour-mark-facing-camera.jpg"
 >
 
@@ -22,8 +23,8 @@ const { team, patrons } = people;
         <span class="breadcrumb__sep" aria-hidden="true">/</span>
         <span aria-current="page">Our Team</span>
       </nav>
-      <h1>Our Team</h1>
-      <p class="team-hero__lead">The people behind the work at Oakdene House.</p>
+      <h1>{pageText.hero__title}</h1>
+      <p class="team-hero__lead">{pageText.hero__intro}</p>
     </div>
   </section>
 
@@ -31,10 +32,10 @@ const { team, patrons } = people;
   <section class="section" aria-labelledby="team-intro-heading">
     <div class="container intro-container">
       <div class="section-heading section-heading--center">
-        <p class="section-heading__eyebrow">The People</p>
-        <h2 id="team-intro-heading">Experienced, caring and community-focused</h2>
+        <p class="section-heading__eyebrow">{pageText.intro__eyebrow}</p>
+        <h2 id="team-intro-heading">{pageText.intro__heading}</h2>
       </div>
-      <p class="intro-lead">Our team brings together care, experience and a deep commitment to community. We work across counselling, program delivery, operations and practical support, with a shared focus on creating a safe and respectful environment for every person who walks through our doors.</p>
+      <p class="intro-lead">{pageText.intro__intro}</p>
     </div>
   </section>
 
@@ -72,8 +73,8 @@ const { team, patrons } = people;
   <section class="section" aria-labelledby="patrons-heading">
     <div class="container">
       <div class="section-heading section-heading--center">
-        <p class="section-heading__eyebrow">Our Patrons</p>
-        <h2 id="patrons-heading">Our Patrons</h2>
+        <p class="section-heading__eyebrow">{pageText.patrons__eyebrow}</p>
+        <h2 id="patrons-heading">{pageText.patrons__heading}</h2>
       </div>
       <div class="patrons-grid">
         {patrons.map(patron => (
@@ -99,17 +100,17 @@ const { team, patrons } = people;
   <!-- CLOSING -->
   <section class="section section--tint" aria-labelledby="team-closing-heading">
     <div class="container closing-container">
-      <h2 id="team-closing-heading" class="visually-hidden">Closing statement</h2>
-      <p class="closing-text">Behind every Oakdene service is a team that believes support should feel human, respectful and real. We are proud to walk alongside the people and families we serve.</p>
+      <h2 id="team-closing-heading" class="visually-hidden">{pageText.closing__heading}</h2>
+      <p class="closing-text">{pageText.closing__text}</p>
     </div>
   </section>
 
   <!-- CTA -->
   <CTABand
-    heading="Get in touch with our team"
-    subheading="We are here to help. Reach out and we will find the right next step together."
-    primaryBtn={{ text: 'Contact Us', href: '/contact/' }}
-    secondaryBtn={{ text: 'Get Support', href: '/contact/' }}
+    heading={pageText.cta__heading}
+    subheading={pageText.cta__subheading}
+    primaryBtn={pageText.cta__primarybtn}
+    secondaryBtn={pageText.cta__secondarybtn}
     dark={true}
   />
 

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import board from '../../content/board.json';
+import pageText from '../../content/pages/about-our-board.json';
 
 // Board profiles are added in the content editor. Until there are any,
 // the page shows the holding message.
@@ -8,8 +9,8 @@ const members: { name: string; role: string; photo?: string; bio?: string }[] = 
 ---
 
 <BaseLayout
-  title="Our Board — Oakdene House Foundation"
-  description="Oakdene House Foundation is guided by a committed Board providing governance, oversight and strategic direction for our community charity in Fairfield, Western Sydney."
+  title={pageText.seo__browser_title}
+  description={pageText.seo__search_description}
   ogImage="/images/centre/exterior-exterior-1-img_2651.jpg"
   noindex={true}
 >
@@ -24,7 +25,7 @@ const members: { name: string; role: string; photo?: string; bio?: string }[] = 
         <span class="breadcrumb__sep" aria-hidden="true">/</span>
         <span aria-current="page">Our Board</span>
       </nav>
-      <h1>Our Board</h1>
+      <h1>{pageText.hero__title}</h1>
     </div>
   </section>
 
@@ -88,14 +89,14 @@ const members: { name: string; role: string; photo?: string; bio?: string }[] = 
     color: var(--color-text);
   }
 
-  .holding-container a {
+  .holding-container :global(a) {
     color: var(--color-primary);
     text-decoration: underline;
     text-underline-offset: 2px;
     transition: color var(--transition);
   }
 
-  .holding-container a:hover {
+  .holding-container :global(a:hover) {
     color: var(--color-link-hover);
   }
 

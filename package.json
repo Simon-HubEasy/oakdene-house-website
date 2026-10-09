@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "images": "node scripts/image-sizes.mjs"
+    "images": "node scripts/image-sizes.mjs",
+    "cms:pages": "node scripts/cms-pages.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

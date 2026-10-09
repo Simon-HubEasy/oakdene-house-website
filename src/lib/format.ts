@@ -58,3 +58,8 @@ const marked = new Marked({
 export function markdown(text: string = ''): string {
   return marked.parse(text, { async: false }) as string;
 }
+
+/** Markdown inside a single line or element (bold, italics, links), no paragraphs. */
+export function inlineMarkdown(text: string = ''): string {
+  return marked.parseInline(text, { async: false }) as string;
+}

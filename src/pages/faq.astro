@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import faqs from '../content/faqs.json';
 import { markdown } from '../lib/format';
+import pageText from '../content/pages/faq.json';
 
 // Categories and questions are edited in the content editor. Letters (A, B, C)
 // and the jump-link ids follow the order of the categories.
@@ -12,8 +13,8 @@ const categories = faqs.categories.map((cat, i) => {
 ---
 
 <BaseLayout
-  title="FAQ — Oakdene House Foundation"
-  description="Frequently asked questions about Oakdene House Foundation's services, programs, volunteering, and more."
+  title={pageText.seo__browser_title}
+  description={pageText.seo__search_description}
 >
 
   <!-- HERO -->
@@ -24,8 +25,8 @@ const categories = faqs.categories.map((cat, i) => {
         <span class="breadcrumb__sep" aria-hidden="true">/</span>
         <span aria-current="page">FAQ</span>
       </nav>
-      <h1>Frequently asked questions</h1>
-      <p class="faq-hero__subtitle">Quick answers to the questions we hear most often. If you can't find what you're looking for, reach out — we're here to help.</p>
+      <h1>{pageText.hero__title}</h1>
+      <p class="faq-hero__subtitle">{pageText.hero__intro}</p>
     </div>
   </section>
 
@@ -65,10 +66,10 @@ const categories = faqs.categories.map((cat, i) => {
 
         <!-- SIGN-OFF -->
         <div class="faq-signoff">
-          <h2 class="faq-signoff__heading">Still can't find what you're looking for?</h2>
+          <h2 class="faq-signoff__heading">{pageText.sign_off__heading}</h2>
           <div class="faq-signoff__btns">
-            <a href="/contact/" class="btn btn--primary">Contact us</a>
-            <a href="tel:+61287170999" class="btn btn--secondary">Call (02) 8717 0999</a>
+            <a href="/contact/" class="btn btn--primary">{pageText.sign_off__button}</a>
+            <a href="tel:+61287170999" class="btn btn--secondary">{pageText.sign_off__button_2}</a>
           </div>
         </div>
 
@@ -112,7 +113,7 @@ const categories = faqs.categories.map((cat, i) => {
     margin-bottom: 40px;
   }
 
-  .faq-jumplinks a {
+  .faq-jumplinks :global(a) {
     display: inline-flex;
     align-items: center;
     padding: 6px 14px;
@@ -126,7 +127,7 @@ const categories = faqs.categories.map((cat, i) => {
     transition: background-color var(--transition), color var(--transition);
   }
 
-  .faq-jumplinks a:hover {
+  .faq-jumplinks :global(a:hover) {
     background-color: var(--color-primary);
     color: var(--color-white);
   }
@@ -247,14 +248,14 @@ const categories = faqs.categories.map((cat, i) => {
     margin: 0;
   }
 
-  .faq-content-inner a {
+  .faq-content-inner :global(a) {
     color: var(--color-primary);
     text-decoration: underline;
     text-underline-offset: 2px;
     transition: color var(--transition);
   }
 
-  .faq-content-inner a:hover {
+  .faq-content-inner :global(a:hover) {
     color: var(--color-link-hover);
   }
 
