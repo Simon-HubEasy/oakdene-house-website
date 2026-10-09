@@ -47,6 +47,7 @@ Node 22.12 or later.
 - npm run dev (local server at localhost:4321)
 - npm run build (outputs to dist/)
 - npm run preview (serves dist/)
+- npm run images (makes the phone-sized copies of photos; run it after adding or replacing a photo and commit the new files)
 
 ## Checks
 - There are no test, lint or type check scripts. npm run build is the only automated check today
@@ -234,6 +235,8 @@ Second set (available for other pages):
 - Shared client-side scripts: src/scripts/ (TypeScript modules imported by component and page <script> tags)
 - All content files: JSON in src/content/. Exception: the video watch page reads video.json and transcript.txt from docs/video-launch/content/ at build time, so the launch pack stays the single source
 - Images served from /images/ (files live in public/images/). New photos go in as JPEG, no more than 1920px on the long edge, quality around 80. Keep PNG only for images that need transparency, such as logos
+- Phone-sized photos: npm run images (scripts/image-sizes.mjs) writes name-640.jpg and name-1080.jpg next to each photo and lists them in src/content/image-sizes.json. At build time integrations/responsive-images.mjs adds srcset and sizes to every <img> that has copies, so pages keep plain src paths. Hero.astro uses the 1080 copy on screens up to 768px, and page banners set in CSS have a matching max-width: 768px rule. The Oakdene Story banner keeps the full-size panorama on purpose, because the 1080 copy is too short for a tall phone banner
+- integrations/ holds local Astro integrations (build hooks). It sits outside src/ because Astro loads it from astro.config.mjs
 - PDFs in public/downloads/
 - Never use inline styles — always CSS classes or custom properties
 - Never use !important
