@@ -2,6 +2,15 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import CTABand from '../components/CTABand.astro';
+import StatsGrid from '../components/StatsGrid.astro';
+
+// About page impact figures. The homepage uses a different, also confirmed, set.
+const stats = [
+  { number: '5,000+', label: 'People supported each year' },
+  { number: '100+', label: 'Community events and workshops' },
+  { number: '1,000+', label: 'Hours of one-to-one support' },
+  { number: '5,000+', label: 'Meals and practical supports delivered' },
+];
 ---
 
 <BaseLayout
@@ -32,7 +41,7 @@ import CTABand from '../components/CTABand.astro';
             <img src="/images/about/oakdene-tree-hero-colour.jpg" alt="The Oakdene tree" loading="lazy" />
           </div>
           <div class="subpage-nav-card__body">
-            <h3>The Oakdene Story</h3>
+            <h2>The Oakdene Story</h2>
             <p>Where we come from and what the oak tree means to us.</p>
             <span class="subpage-nav-card__arrow" aria-hidden="true">Read the story &rarr;</span>
           </div>
@@ -43,7 +52,7 @@ import CTABand from '../components/CTABand.astro';
             <img src="/images/team/colour-mark-facing-camera.jpg" alt="Oakdene team member" loading="lazy" style="object-position: center 30%;" />
           </div>
           <div class="subpage-nav-card__body">
-            <h3>Our Team</h3>
+            <h2>Our Team</h2>
             <p>The people behind the work at Oakdene House.</p>
             <span class="subpage-nav-card__arrow" aria-hidden="true">Meet the team &rarr;</span>
           </div>
@@ -54,7 +63,7 @@ import CTABand from '../components/CTABand.astro';
             <img src="/images/centre/interior-interior-1-with-people-img_2654.jpg" alt="Oakdene House centre interior" loading="lazy" />
           </div>
           <div class="subpage-nav-card__body">
-            <h3>Our Centre</h3>
+            <h2>Our Centre</h2>
             <p>A welcoming space in Fairfield for support, connection and community.</p>
             <span class="subpage-nav-card__arrow" aria-hidden="true">See our centre &rarr;</span>
           </div>
@@ -72,6 +81,17 @@ import CTABand from '../components/CTABand.astro';
         <h2 id="who-heading">A community charity built around real life</h2>
       </div>
       <p class="who-lead">Oakdene House Foundation is based in Western Sydney but supports people and families across the greater Sydney region affected by addiction, hardship, homelessness, and other life challenges. Our work is shaped by the belief that support should be respectful, practical, and accessible, especially when life feels unstable or overwhelming.</p>
+    </div>
+  </section>
+
+  <!-- IMPACT -->
+  <section class="section section--dark" aria-labelledby="impact-heading">
+    <div class="container">
+      <div class="section-heading section-heading--center">
+        <p class="section-heading__eyebrow">Our Impact</p>
+        <h2 id="impact-heading">Our year in numbers</h2>
+      </div>
+      <StatsGrid stats={stats} />
     </div>
   </section>
 
@@ -254,7 +274,7 @@ import CTABand from '../components/CTABand.astro';
     flex: 1;
   }
 
-  .subpage-nav-card__body h3 {
+  .subpage-nav-card__body h2 {
     font-size: 1rem;
     font-weight: 600;
     color: var(--color-primary);
@@ -321,7 +341,7 @@ import CTABand from '../components/CTABand.astro';
   }
 
   .mvv-card--dark .mvv-card__label { color: var(--color-secondary); }
-  .mvv-card--light .mvv-card__label { color: var(--color-primary); opacity: 0.65; }
+  .mvv-card--light .mvv-card__label { color: var(--color-primary); opacity: 0.85; }
 
   .mvv-card__text {
     font-size: 1rem;
