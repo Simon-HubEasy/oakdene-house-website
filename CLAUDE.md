@@ -196,12 +196,12 @@ All images are in public/images/ and served from /images/
 - Friday 5:00pm–6:30pm Zoom
 
 ## Impact stats — use these exact numbers
-Both sets are confirmed correct by Simon (7 October 2026). Don't change one to match the other.
+Both sets are confirmed by Simon. Updated 9 October 2026: individuals figure is 5,000+ on both the homepage and About page.
 
 Homepage set (src/pages/index.astro):
 - 5,000+ Meals and food packs delivered annually
 - $250,000 Value of supplies provided annually
-- 2,000+ Individuals impacted
+- 5,000+ Individuals impacted
 - 25 Local organisation partnerships
 
 Second set (available for other pages):
