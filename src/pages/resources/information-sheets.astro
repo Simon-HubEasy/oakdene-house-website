@@ -1,6 +1,11 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CTABand from '../../components/CTABand.astro';
+import ResourceList from '../../components/ResourceList.astro';
+import resources from '../../content/resources.json';
+
+// Added in the content editor. Until there are any, the page says they are coming soon.
+const items: { title: string; description?: string; file: string }[] = resources.information_sheets;
 ---
 
 <BaseLayout
@@ -24,6 +29,9 @@ import CTABand from '../../components/CTABand.astro';
 
   <section class="section" aria-labelledby="info-heading">
     <div class="container">
+      {items.length > 0 ? (
+        <ResourceList items={items} label="Information sheets" />
+      ) : (
       <div class="placeholder-content">
         <div class="placeholder-icon" aria-hidden="true">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
@@ -35,6 +43,7 @@ import CTABand from '../../components/CTABand.astro';
           <a href="/resources/" class="btn btn--secondary">Back to Resources</a>
         </div>
       </div>
+      )}
     </div>
   </section>
 

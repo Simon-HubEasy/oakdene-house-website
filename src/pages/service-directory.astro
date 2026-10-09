@@ -1,10 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CTABand from '../components/CTABand.astro';
-import directoryData from '../content/oakdene-service-directory.json';
+import directoryData from '../content/directory/settings.json';
 
-const { services, meta } = directoryData;
-const total = meta.totalServices; // 318
+// One file per service in src/content/directory/services/, edited in the
+// content editor. Sorted by category, then service name.
+const serviceFiles = import.meta.glob('../content/directory/services/*.json', { eager: true, import: 'default' });
+const services = Object.values(serviceFiles as Record<string, any>).sort((a, b) =>
+  a.category.localeCompare(b.category, 'en', { sensitivity: 'base' }) ||
+  a.serviceName.localeCompare(b.serviceName, 'en', { sensitivity: 'base' })
+);
+const { meta } = directoryData;
+const total = services.length;
+const groupCount = (name: string) => services.filter((s) => s.categoryGroup === name).length;
 
 // Suppress "by [organisation]" subtitle when one string contains the other
 function showOrg(serviceName: string, organisation: string): boolean {
@@ -51,12 +59,12 @@ const verifiedFormatted = verifiedDate.toLocaleDateString('en-AU', {
 });
 
 // otherDirectories — skip the header row if the source data fix hasn't landed
-const otherDirs = directoryData.otherDirectories.filter((d: any) => d.name !== 'Name');
+const otherDirs = directoryData.otherDirectories;
 ---
 
 <BaseLayout
   title="Community Service Directory — Oakdene House Foundation"
-  description="Browse 318 support services across Western Sydney and beyond — counselling, housing, legal, family, AOD, mental health and more. Curated by Oakdene House Foundation."
+  description={`Browse ${total} support services across Western Sydney and beyond — counselling, housing, legal, family, AOD, mental health and more. Curated by Oakdene House Foundation.`}
 >
 
   <!-- HERO -->
@@ -88,7 +96,7 @@ const otherDirs = directoryData.otherDirectories.filter((d: any) => d.name !== '
         <select id="group-select" class="filter-bar__select">
           <option value="">All categories ({total})</option>
           {directoryData.categoryGroups.map(g => (
-            <option value={g.name}>{g.name} ({g.count})</option>
+            <option value={g.name}>{g.name} ({groupCount(g.name)})</option>
           ))}
         </select>
       </div>
@@ -317,7 +325,6 @@ const otherDirs = directoryData.otherDirectories.filter((d: any) => d.name !== '
 
 <script>
   (function () {
-    const TOTAL = 318;
     const searchInput    = document.getElementById('search-input')    as HTMLInputElement;
     const groupSelect    = document.getElementById('group-select')    as HTMLSelectElement;
     const coverageSelect = document.getElementById('coverage-select') as HTMLSelectElement;
@@ -328,6 +335,7 @@ const otherDirs = directoryData.otherDirectories.filter((d: any) => d.name !== '
     if (!searchInput || !groupSelect || !coverageSelect) return;
 
     const cards = Array.from(cardsGrid.querySelectorAll<HTMLElement>('article.svc-card'));
+    const TOTAL = cards.length;
 
     function applyFilters() {
       const query    = searchInput.value.toLowerCase().trim();

@@ -12,8 +12,8 @@ import allTestimonials from '../content/testimonials.json';
 import allFaqs from '../content/faqs.json';
 import video from '../../docs/video-launch/content/video.json';
 
-const testimonials = allTestimonials.filter(t => t.page === 'home');
-const faqs = allFaqs.slice(0, 4);
+const testimonials = allTestimonials.testimonials.filter(t => t.page === 'home');
+const faqs = allFaqs.homepage.slice(0, 4);
 
 const stats = [
   { number: '5,000+',    label: 'Meals and food packs delivered annually' },

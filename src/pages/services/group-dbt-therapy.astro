@@ -1,15 +1,11 @@
 ---
+import programs from '../../content/programs.json';
+import { inline } from '../../lib/format';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import InfoTable from '../../components/InfoTable.astro';
 import CTABand from '../../components/CTABand.astro';
 
-const serviceRows = [
-  { label: 'Cost', value: 'Free' },
-  { label: 'Access', value: 'By appointment — contact to discuss suitability' },
-  { label: 'Location', value: 'Oakdene Centre, 29 Vine Street, Fairfield' },
-  { label: 'Phone', value: '(02) 8717 0999' },
-  { label: 'Email', value: 'admin@oakdenehouse.org.au' },
-];
+const serviceRows = programs.group_dbt_therapy.rows.map((row) => ({ label: row.label, value: inline(row.value) }));
 
 const schedule = [
   { day: 'Wednesday', time: '1:00pm – 2:15pm', notes: 'Starts 13 May 2026' },

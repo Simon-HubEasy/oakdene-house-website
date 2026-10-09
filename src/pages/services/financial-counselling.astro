@@ -1,15 +1,11 @@
 ---
+import programs from '../../content/programs.json';
+import { inline } from '../../lib/format';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import InfoTable from '../../components/InfoTable.astro';
 import CTABand from '../../components/CTABand.astro';
 
-const serviceRows = [
-  { label: 'Cost', value: 'Free' },
-  { label: 'Access', value: 'By appointment — no referral needed' },
-  { label: 'Location', value: 'Oakdene Centre, 29 Vine Street, Fairfield' },
-  { label: 'Phone', value: '<a href="tel:0287170999">(02) 8717 0999</a>' },
-  { label: 'Email', value: '<a href="mailto:admin@oakdenehouse.org.au">admin@oakdenehouse.org.au</a>' },
-];
+const serviceRows = programs.financial_counselling.rows.map((row) => ({ label: row.label, value: inline(row.value) }));
 
 ---
 

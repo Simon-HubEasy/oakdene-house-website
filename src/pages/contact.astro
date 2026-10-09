@@ -1,18 +1,12 @@
 ---
+import programs from '../content/programs.json';
+import { inline } from '../lib/format';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import InfoTable from '../components/InfoTable.astro';
 import CTABand from '../components/CTABand.astro';
 
-const hoursRows = [
-  { label: 'Oakdene Kitchen',       value: 'Tuesday–Thursday, 12pm–2pm' },
-  { label: 'Staple Food Packs',     value: 'Every Friday, 12pm–1pm (commencing 17 April 2026)' },
-  { label: 'Oakdene Laundrette',    value: 'Tuesday–Thursday, 12pm–2:30pm (last entry 1pm)' },
-  { label: 'Used Clothing Store',   value: 'Tuesday–Thursday, 12pm–2pm' },
-  { label: 'Ladies Boutique',       value: 'By appointment only' },
-  { label: 'Counselling',           value: 'By appointment' },
-  { label: 'Life Choices Program',  value: 'See <a href="/services/life-choices-program/">program page</a> for full schedule' },
-];
+const hoursRows = programs.contact_hours.rows.map((row) => ({ label: row.label, value: inline(row.value) }));
 ---
 
 <BaseLayout
