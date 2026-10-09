@@ -313,6 +313,8 @@ Contact page needs a Google Maps embed for 29 Vine St, Fairfield NSW 2165. Use a
 - Editors type plain text. src/lib/format.ts turns it into HTML: inline() for short values (emails and Australian phone numbers become links, [text](/link/) makes a link), inlineMarkdown() for page text and markdown() for longer text such as FAQ answers. Links to other sites open in a new tab. Markdown allows raw HTML, which is acceptable because only people with write access to the repository can sign in
 - Decap does not keep the order of keys in JSON files it saves. That is harmless; compare files by content, not by line diff
 - Decap file collections: don't give a file the same name as one of its fields (it then loads empty)
+- Setup steps (GitHub OAuth apps, Cloudflare settings, collaborators) are in docs/cms/setup.md; the staff how-to is docs/cms/staff-guide.md
+- Once the live editor is in use, content changes land directly in Matt's main. Sync the fork (Sync fork on GitHub, or git pull upstream main) before starting code work, or the next pull request to Matt will conflict
 - To upgrade Decap, replace public/admin/decap/ with the dist/ files (decap-cms.js, the numbered *.decap-cms.js chunks, the .wasm files and the licence) from the new decap-cms npm package, then test both screens
 
 ## Build status checklist
