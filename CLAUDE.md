@@ -233,7 +233,7 @@ Second set (available for other pages):
 - All component files: PascalCase (e.g. ServiceCard.astro)
 - Shared client-side scripts: src/scripts/ (TypeScript modules imported by component and page <script> tags)
 - All content files: JSON in src/content/. Exception: the video watch page reads video.json and transcript.txt from docs/video-launch/content/ at build time, so the launch pack stays the single source
-- Images served from /images/ (files live in public/images/)
+- Images served from /images/ (files live in public/images/). New photos go in as JPEG, no more than 1920px on the long edge, quality around 80. Keep PNG only for images that need transparency, such as logos
 - PDFs in public/downloads/
 - Never use inline styles — always CSS classes or custom properties
 - Never use !important
@@ -319,5 +319,5 @@ Config in public/admin/config.yml. Staff edit via /admin/ in browser.
 - [x] Contact page built
 - [x] 404 and Thank You pages built
 - [ ] Decap CMS configured
-- [ ] Images optimised for web
+- [x] Images optimised for web (the images in use, October 2026)
 - [x] Deployed to Cloudflare Pages (from mattmbaldwin/oakdene-house-website; see Build and deploy)
