@@ -33,7 +33,11 @@ function toService(org, svc) {
   const own = svc.social && Object.keys(svc.social).length ? svc.social : (org.social || {});
   const social = {};
   for (const k of ['facebook', 'instagram', 'linkedin', 'x', 'youtube', 'tiktok']) if (blank(own[k])) social[k] = blank(own[k]);
-  const c = svc.contact || {}, l = svc.location || {}, id = org.identifiers || {}, f = svc.flags || {};
+  // A service with its own ABN is a local charity within a network (a Lifeline centre): its ABN and ACNC link win
+  // as one set. HubEasy only sends a service's identifiers where they differ from its organisation's (stage s95).
+  const svcId = svc.identifiers || {};
+  const id = blank(svcId.abn) ? svcId : (org.identifiers || {});
+  const c = svc.contact || {}, l = svc.location || {}, f = svc.flags || {};
   return {
     serviceName: blank(svc.name),
     organisation: blank(org.name),
