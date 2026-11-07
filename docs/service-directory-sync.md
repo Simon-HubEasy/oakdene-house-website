@@ -1,49 +1,44 @@
-# Service directory: edited in SharePoint, published here
+# Service directory: maintained in HubEasy, published here
 
-Staff maintain the community service directory in the **Service directory** list on the Oakdene staff
-intranet (https://oakdenehouse.sharepoint.com/sites/oakdene/Lists/Service%20directory). The website keeps
-reading `src/content/oakdene-service-directory.json` exactly as before; a scheduled job keeps that file in step
-with the list.
+Oakdene's community service directory is maintained in **HubEasy** (Directory → Services and Organisations), the
+single source since 7 November 2026. The website keeps reading `src/content/oakdene-service-directory.json`
+exactly as before; a scheduled job keeps that file in step with HubEasy. The staff intranet's Service Directory
+page embeds this site's directory, so it follows too.
 
 ## How it flows
 
-1. A staff member adds or edits a service in the list. The list has **content approval** on, so the change
-   waits as *Pending* until an approver (Simon or Pauline) approves it.
-2. Every 30 minutes `.github/workflows/sync-service-directory.yml` runs `scripts/sync-service-directory.mjs`.
-   It reads the list through Microsoft Graph with a read-only app, rebuilds the `services` array, refreshes the
-   counts in `categoryGroups`, `coverageTiers` and `lgaTiers`, and commits the file only if it changed.
-3. The push rebuilds the site as usual. An approved edit is live within about 30 to 35 minutes.
+1. A staff member adds or edits a service in HubEasy. To appear on the website a service needs **Show on the
+   public website directory** ticked, plus a **Website group**, **Category**, **Service type** and **Coverage**
+   (Edit → Public website).
+2. Every 30 minutes `.github/workflows/sync-service-directory.yml` runs `scripts/sync-service-directory.mjs`. It
+   reads HubEasy's public feed (`https://oakdene.hubeasy.com.au/api/public-directory.php`), rebuilds the
+   `services` array, refreshes the counts in `categoryGroups`, `coverageTiers` and `lgaTiers`, and commits the
+   file only if it changed.
+3. The push rebuilds the site as usual. An edit in HubEasy is live within about 30 to 35 minutes.
 
 `meta`, `otherDirectories` and the group/tier descriptions stay in this file and are edited here as before.
 
+## What the feed is
+
+A read-only JSON document with no sign-in: each organisation (name, ABN, ACNC details, official accounts) with
+its published services nested under it. Only services marked for the website are in it, and only public fields.
+A service's own social accounts are used where it has them; otherwise its organisation's. The ABN and ACNC link
+are the organisation's.
+
 ## Safety
 
-- The app can only read, and only the intranet site (Microsoft Graph `Sites.Selected`, granted read on that one site).
-- The list's draft item security is set to approvers only, so the app sees the last **approved** version of each
-  service. If it can ever see an unapproved item, the sync stops with an error rather than publishing it.
-- It refuses to publish fewer than 50 services, so a permissions or connection fault can't empty the directory.
+- Nothing to configure: no secrets, no app registration. The feed is public by design and read-only.
+- It refuses to publish fewer than 50 services, so a fault at HubEasy can't empty the directory.
+- A service marked for the website but missing its group, category, type or coverage is left out and named in
+  the run's warnings, rather than breaking the page.
 - Unchanged services keep their exact JSON, so each commit diff shows only real edits.
-
-## One-time setup (repository owner)
-
-Add three repository secrets (Settings → Secrets and variables → Actions):
-
-| Secret | Value |
-|---|---|
-| `SP_TENANT_ID` | Oakdene's Microsoft 365 tenant ID |
-| `SP_CLIENT_ID` | Application (client) ID of the "Oakdene website directory sync" app |
-| `SP_CLIENT_SECRET` | A client secret for that app |
-
-Until the secrets exist the job skips quietly. Run it once by hand from the Actions tab to check.
-
-The workflow pushes to `main` with the built-in `GITHUB_TOKEN`; if `main` gets branch protection, allow
-GitHub Actions to push or switch the job to open a pull request instead.
 
 ## Testing locally
 
-```bash
-node scripts/sync-service-directory.mjs --from items.json --check
+```
+node scripts/sync-service-directory.mjs --check                 # would the file change?
+node scripts/sync-service-directory.mjs --from saved-feed.json  # use a saved feed document
 ```
 
-`items.json` is an array of list item field objects (as Graph returns them under `fields`). `--check` reports
-whether the file would change without writing it.
+The workflow pushes to `main` with the built-in `GITHUB_TOKEN`; if `main` gets branch protection, allow GitHub
+Actions to push or switch the job to open a pull request instead.

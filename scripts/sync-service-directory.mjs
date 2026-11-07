@@ -1,62 +1,51 @@
-// Rebuilds src/content/oakdene-service-directory.json from the "Service directory" list on the Oakdene staff
-// intranet (SharePoint), so staff can edit services there and the website picks the changes up.
+// Rebuilds src/content/oakdene-service-directory.json from the HubEasy service directory, the single source for
+// Oakdene's directory (decision 7 Nov 2026). HubEasy publishes a read-only feed of the services marked
+// "Show on website", each under its organisation; this script reshapes it into the file the site already reads.
 //
-// Run by .github/workflows/sync-service-directory.yml every 30 minutes. Only approved list items are published:
-// the list has content approval on and draft visibility set to approvers, so a read-only app sees the last approved
-// version of each item. As a safety net the sync refuses to run if it can see anything unapproved.
+// Run by .github/workflows/sync-service-directory.yml every 30 minutes.
 //
 // Usage:
-//   node scripts/sync-service-directory.mjs                 # reads SharePoint (needs SP_TENANT_ID, SP_CLIENT_ID, SP_CLIENT_SECRET)
-//   node scripts/sync-service-directory.mjs --from <file>   # reads list items from a JSON file instead (for testing)
+//   node scripts/sync-service-directory.mjs                 # reads the HubEasy feed (HUBEASY_FEED_URL, or the default below)
+//   node scripts/sync-service-directory.mjs --from <file>   # reads a saved feed document instead (for testing)
 //   add --check to report whether the file would change, without writing it
 import { readFile, writeFile } from 'node:fs/promises';
 
 const FILE = new URL('../src/content/oakdene-service-directory.json', import.meta.url);
-const SITE_PATH = 'oakdenehouse.sharepoint.com:/sites/oakdene';
-const LIST = 'Service directory';
-const GRAPH = 'https://graph.microsoft.com/v1.0';
+const FEED = process.env.HUBEASY_FEED_URL || 'https://oakdene.hubeasy.com.au/api/public-directory.php';
 
 const args = process.argv.slice(2);
 const fromFile = args.includes('--from') ? args[args.indexOf('--from') + 1] : null;
 const checkOnly = args.includes('--check');
 
-async function graphItems() {
-  const { SP_TENANT_ID: t, SP_CLIENT_ID: id, SP_CLIENT_SECRET: secret } = process.env;
-  if (!t || !id || !secret) throw new Error('SP_TENANT_ID, SP_CLIENT_ID and SP_CLIENT_SECRET must be set');
-  const tok = await fetch(`https://login.microsoftonline.com/${t}/oauth2/v2.0/token`, {
-    method: 'POST',
-    body: new URLSearchParams({ grant_type: 'client_credentials', client_id: id, client_secret: secret, scope: 'https://graph.microsoft.com/.default' })
-  }).then(r => r.json());
-  if (!tok.access_token) throw new Error('token: ' + (tok.error_description || tok.error));
-  const get = async (u) => {
-    const r = await fetch(u, { headers: { Authorization: `Bearer ${tok.access_token}`, Prefer: 'HonorNonIndexedQueriesWarningMayFailRandomly' } });
-    if (!r.ok) throw new Error(`${r.status} ${u.replace(GRAPH, '')}: ${(await r.text()).slice(0, 300)}`);
-    return r.json();
-  };
-  const site = await get(`${GRAPH}/sites/${SITE_PATH}`);
-  const items = [];
-  let u = `${GRAPH}/sites/${site.id}/lists/${encodeURIComponent(LIST)}/items?expand=fields&$top=500`;
-  while (u) { const p = await get(u); items.push(...p.value.map(i => i.fields)); u = p['@odata.nextLink']; }
-  return items;
+async function feed() {
+  if (fromFile) return JSON.parse(await readFile(fromFile, 'utf8'));
+  const r = await fetch(FEED, { headers: { Accept: 'application/json', 'User-Agent': 'oakdene-website-directory-sync' } });
+  if (!r.ok) throw new Error(`${r.status} from ${FEED}: ${(await r.text()).slice(0, 300)}`);
+  const doc = await r.json();
+  if (!doc || !Array.isArray(doc.organisations)) throw new Error('the feed did not return a directory document');
+  return doc;
 }
 
 const blank = v => (v === undefined || v === null || (typeof v === 'string' && v.trim() === '')) ? null : (typeof v === 'string' ? v.trim() : v);
 
-function toService(f) {
+function toService(org, svc) {
+  // A service's own accounts win (Carer Gateway's page is not The Benevolent Society's); otherwise the organisation's.
+  const own = svc.social && Object.keys(svc.social).length ? svc.social : (org.social || {});
   const social = {};
-  for (const [k, col] of [['facebook', 'Facebook'], ['instagram', 'Instagram'], ['linkedin', 'LinkedIn']]) if (blank(f[col])) social[k] = blank(f[col]);
+  for (const k of ['facebook', 'instagram', 'linkedin', 'x', 'youtube', 'tiktok']) if (blank(own[k])) social[k] = blank(own[k]);
+  const c = svc.contact || {}, l = svc.location || {}, id = org.identifiers || {}, f = svc.flags || {};
   return {
-    serviceName: blank(f.Title),
-    organisation: blank(f.Organisation),
-    category: blank(f.Category),
-    categoryGroup: blank(f.CategoryGroup),
-    serviceType: blank(f.ServiceType),
-    contact: { phone: blank(f.Phone), email: blank(f.Email), website: blank(f.Website) },
+    serviceName: blank(svc.name),
+    organisation: blank(org.name),
+    category: blank(svc.category),
+    categoryGroup: blank(svc.categoryGroup),
+    serviceType: blank(svc.serviceType),
+    contact: { phone: blank(c.phone), email: blank(c.email), website: blank(c.website) },
     social,
-    location: { suburb: blank(f.Suburb), lga: blank(f.CouncilArea), coverage: blank(f.Coverage) },
-    identifiers: { abn: blank(f.ABN), acncLink: blank(f.CharityRegisterLink) },
-    flags: { aod: !!f.AlcoholAndDrugs, legal: !!f.LegalSupport },
-    listedIn: blank(f.ListedIn)
+    location: { suburb: blank(l.suburb), lga: blank(l.lga), coverage: blank(l.coverage) },
+    identifiers: { abn: blank(id.abn), acncLink: blank(id.acncLink) },
+    flags: { aod: !!f.aod, legal: !!f.legal },
+    listedIn: blank(svc.listedIn)
   };
 }
 
@@ -73,14 +62,16 @@ function recount(list, keyOf, nameKey = 'name') {
 }
 
 async function main() {
-  const raw = fromFile ? JSON.parse(await readFile(fromFile, 'utf8')) : await graphItems();
-  const unapproved = raw.filter(f => f._ModerationStatus !== undefined && f._ModerationStatus !== 0);
-  if (unapproved.length) throw new Error(`refusing to publish: ${unapproved.length} unapproved item(s) are visible to the sync app. Check the list's draft item security.`);
-  const rows = raw.map(f => ({ order: Number.isFinite(f.SortOrder) ? f.SortOrder : Infinity, verified: f.LastVerified ? sydneyDate(new Date(f.LastVerified)) : null, s: toService(f) }))
-    .filter(r => r.s.serviceName && r.s.categoryGroup && r.s.category && r.s.serviceType && r.s.location.coverage);
-  rows.sort((a, b) => (a.order - b.order) || a.s.serviceName.localeCompare(b.s.serviceName));
+  const doc0 = await feed();
+  const all = doc0.organisations.flatMap(org => (org.services || []).map(svc => ({
+    verified: svc.updatedAt ? sydneyDate(new Date(String(svc.updatedAt).replace(' ', 'T'))) : null, s: toService(org, svc) })));
+  // The site groups and filters on these; a published service without them is reported, not shown.
+  const incomplete = all.filter(r => !(r.s.serviceName && r.s.categoryGroup && r.s.category && r.s.serviceType && r.s.location.coverage));
+  for (const r of incomplete) console.warn(`::warning::not shown (needs website group, category, type and coverage in HubEasy): ${r.s.serviceName}`);
+  const rows = all.filter(r => !incomplete.includes(r));
+  rows.sort((a, b) => a.s.serviceName.localeCompare(b.s.serviceName));
   const services = rows.map(r => r.s);
-  if (services.length < 50) throw new Error(`refusing to publish only ${services.length} services (expected about 300): check the list and the app's access`);
+  if (services.length < 50) throw new Error(`refusing to publish only ${services.length} services (expected about 300): check the HubEasy feed`);
 
   const before = await readFile(FILE, 'utf8');
   const doc = JSON.parse(before);
@@ -107,7 +98,7 @@ async function main() {
   const latestVerified = rows.map(r => r.verified).filter(Boolean).sort().pop();
   doc.meta = { ...doc.meta, totalServices: services.length,
     lastVerified: [doc.meta.lastVerified, latestVerified].filter(Boolean).sort().pop() };
-  if (servicesChanged) Object.assign(doc.meta, { generatedAt: sydneyDate(), source: 'Service directory list on the Oakdene staff intranet (SharePoint), synced automatically' });
+  if (servicesChanged) Object.assign(doc.meta, { generatedAt: sydneyDate(), source: 'HubEasy service directory, synced automatically' });
   doc.services = services;
 
   const after = JSON.stringify(doc, null, 2);
