@@ -2,8 +2,20 @@
    OAKDENE HOUSE FOUNDATION — GLOBAL STYLESHEET
    ============================================================ */
 
-/* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+/* Fonts
+   DM Sans is served from this site (the @fontsource-variable/dm-sans package,
+   imported in BaseLayout.astro) instead of Google Fonts, so it no longer waits
+   on a second server. Until it loads, text shows in Arial resized to take up
+   the same space as DM Sans, so nothing jumps when DM Sans arrives.
+   The numbers were measured from the DM Sans and Arial font files. */
+@font-face {
+  font-family: 'DM Sans Fallback';
+  src: local('Arial'), local('Helvetica'), local('Liberation Sans');
+  size-adjust: 103.77%;
+  ascent-override: 95.59%;
+  descent-override: 29.87%;
+  line-gap-override: 0%;
+}
 
 /* ============================================================
    CUSTOM PROPERTIES
@@ -21,7 +33,7 @@
   --color-link-hover: #005A76;
 
   /* Typography */
-  --font-body: 'DM Sans', sans-serif;
+  --font-body: 'DM Sans Variable', 'DM Sans Fallback', sans-serif;
   --text-base: 16px;
   --leading-base: 1.6;
 

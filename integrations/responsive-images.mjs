@@ -4,6 +4,11 @@
 // the full-size photo. Desktop still gets the original, because sizes tells
 // the browser the image can be up to 1200px wide on larger screens.
 //
+// It also adds width and height (the photo's real size) when the tag has
+// neither, so the browser reserves the right space before the photo arrives.
+// Without them, lazy-loaded photos take up no space, all look close to the
+// screen, and download straight away alongside the hero.
+//
 // It runs after the build, so pages and components keep plain src paths.
 // Images that already have a srcset, or have no copies, are left alone.
 
@@ -41,7 +46,10 @@ export default function responsiveImages() {
             const candidates = Object.entries(entry.variants).map(([w, ref]) => `${ref} ${w}w`);
             candidates.push(`${src} ${entry.width}w`);
             count++;
-            return tag.replace(/\ssrc="[^"]+"/, (m) => `${m} srcset="${candidates.join(', ')}" sizes="${SIZES}"`);
+            const dims = /\s(width|height)=/.test(tag) || !entry.height
+              ? ''
+              : ` width="${entry.width}" height="${entry.height}"`;
+            return tag.replace(/\ssrc="[^"]+"/, (m) => `${m} srcset="${candidates.join(', ')}" sizes="${SIZES}"${dims}`);
           });
           if (updated !== html) fs.writeFileSync(file, updated);
         }

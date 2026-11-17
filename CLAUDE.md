@@ -85,7 +85,7 @@ These match the custom properties in src/styles/global.css. Use the variables (v
 - Muted text: #666666
 - Link colour: #003E51
 - Link hover: #005A76
-- Font: DM Sans (Google Fonts) — weights 400, 500, 600, 700
+- Font: DM Sans, self-hosted from @fontsource-variable/dm-sans (imported in BaseLayout, latin file preloaded). Weights 400, 500, 600, 700. Do not add Google Fonts links back: they block the first paint. The 'DM Sans Fallback' @font-face in global.css sizes Arial to match DM Sans so text does not jump when the font arrives
 - Body size: 16px, line-height 1.6
 - H1: 40–48px, weight 700
 - H2: 28–32px, weight 600
@@ -151,7 +151,7 @@ All images are in public/images/ and served from /images/
 ### Oakdene Kitchen
 - Days: Tuesday, Wednesday, Thursday
 - Hours: 12pm–2pm
-- Location: 9/2 Dale Street, Fairfield
+- Location: 8 Dale Street, Fairfield
 - Cost: Free
 - Eligibility: Centrelink Income Statement + photo ID, under $1,200/fortnight
 - Important note: If you use Oakdene Kitchen support, you will no longer be able to be a member of Fairfield RSL
@@ -251,7 +251,7 @@ Second set (About page, src/content/pages/about.json, data__stats):
 
 ## Component conventions
 - Every page uses BaseLayout.astro
-- BaseLayout accepts: title, description (optional), ogImage (optional, defaults to /images/hero/hero-centre-1.jpg), noindex (optional boolean), ogType (optional, defaults to 'website'). It has a named slot "head" for page-specific head content such as JSON-LD (use slot="head" on the element)
+- BaseLayout accepts: title, description (optional), ogImage (optional, defaults to /images/hero/hero-centre-1.jpg), noindex (optional boolean), ogType (optional, defaults to 'website'), heroImage (optional: the page's above-the-fold banner image, preloaded with high priority; the phone copy is taken from image-sizes.json) and heroImagePhone (optional: overrides that phone copy, used by the Oakdene Story to keep the full panorama). Every page with a banner should pass heroImage. It has a named slot "head" for page-specific head content such as JSON-LD (use slot="head" on the element)
 - Hero.astro accepts: heading, subheading, image, imageAlt, buttons array of {text, href, variant: 'white' | 'white-outline'}
 - CTABand.astro accepts: heading, subheading, primaryBtn {text, href}, secondaryBtn {text, href}, dark boolean (defaults to true)
 - ServiceCard.astro accepts: title, summary, href, image, imageAlt, imagePosition, icon, eyebrow (all but the first three optional)
