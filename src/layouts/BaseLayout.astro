@@ -1,5 +1,9 @@
 ---
+import '@fontsource-variable/dm-sans/opsz.css';
+import '@fontsource-variable/dm-sans/opsz-italic.css';
+import dmSansLatin from '@fontsource-variable/dm-sans/files/dm-sans-latin-opsz-normal.woff2?url';
 import '../styles/global.css';
+import imageSizes from '../content/image-sizes.json';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 // import ChatWidget from '../components/ChatWidget.astro';
@@ -10,6 +14,13 @@ interface Props {
   ogImage?: string;
   noindex?: boolean;
   ogType?: string;
+  /** The page's top photo (the hero). It is preloaded at high priority so it
+      starts downloading straight away. Must be the same image the page's CSS
+      shows. On phones the page shows the 1080px copy when there is one. */
+  heroImage?: string;
+  /** Set when the page's CSS shows a different photo on phones than the
+      1080px copy, for example the full-size photo. */
+  heroImagePhone?: string;
 }
 
 const {
@@ -18,7 +29,14 @@ const {
   ogImage = '/images/hero/hero-centre-1.jpg',
   noindex = false,
   ogType = 'website',
+  heroImage,
+  heroImagePhone,
 } = Astro.props;
+
+const heroSizes = heroImage
+  ? (imageSizes as Record<string, { variants: Record<string, string> }>)[heroImage]
+  : undefined;
+const heroSmall = heroImagePhone ?? heroSizes?.variants['1080'];
 
 const siteUrl = 'https://oakdenehouse.org.au';
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
@@ -54,9 +72,17 @@ const ogImageUrl = new URL(ogImage, siteUrl).href;
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/images/logos/oakdene-hero-logo.png" />
 
-    <!-- Google Fonts preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Start the main font and the hero photo straight away -->
+    <link rel="preload" href={dmSansLatin} as="font" type="font/woff2" crossorigin />
+    {heroImage && heroSmall && heroSmall !== heroImage && (
+      <>
+        <link rel="preload" as="image" href={heroSmall} fetchpriority="high" media="(max-width: 768px)" />
+        <link rel="preload" as="image" href={heroImage} fetchpriority="high" media="(min-width: 769px)" />
+      </>
+    )}
+    {heroImage && (!heroSmall || heroSmall === heroImage) && (
+      <link rel="preload" as="image" href={heroImage} fetchpriority="high" />
+    )}
 
     <title>{title}</title>
 
